@@ -48,7 +48,8 @@ public class MovieServlet extends HttpServlet {
         				+ "LEFT JOIN stars S ON SM.starId = S.id "
         				+ "LEFT JOIN genres_in_movies RM ON M.id = RM.movieId "
         				+ "LEFT JOIN genres G ON RM.genreId = G.id "
-        				+ "LEFT JOIN ratings R ON M.id = R. movieId LIMIT 10";
+        				+ "LEFT JOIN ratings R ON M.id = R.movieId "
+        				+ "ORDER BY R.rating DESC LIMIT 50";
         		// execute query
         		ResultSet resultSet = statement.executeQuery(query);
 
