@@ -43,13 +43,14 @@ public class MovieServlet extends HttpServlet {
         		// declare statement
         		Statement statement = connection.createStatement();
         		// prepare query
-        		String query = "SELECT M.title, M.year, M.director, G.name AS genres, S.name as stars, R.rating "
-        				+ "FROM movies M LEFT JOIN stars_in_movies SM ON M.id = SM.movieId "
-        				+ "LEFT JOIN stars S ON SM.starId = S.id "
-        				+ "LEFT JOIN genres_in_movies RM ON M.id = RM.movieId "
-        				+ "LEFT JOIN genres G ON RM.genreId = G.id "
-        				+ "LEFT JOIN ratings R ON M.id = R.movieId "
-        				+ "ORDER BY R.rating DESC LIMIT 50";
+        		String query = "SELECT M.title, M.year, M.director, GROUP_CONCAT(DISTINCT G.name SEPARATOR ', ') AS genres , GROUP_CONCAT(DISTINCT S.name SEPARATOR ', ') AS stars, R.rating \n" + 
+        				"FROM movies M \n" + 
+        				"LEFT JOIN stars_in_movies SM ON M.id = SM.movieId \n" + 
+        				"LEFT JOIN stars S ON SM.starId = S.id \n" + 
+        				"LEFT JOIN genres_in_movies RM ON M.id = RM.movieId \n" + 
+        				"LEFT JOIN genres G ON RM.genreId = G.id \n" + 
+        				"LEFT JOIN ratings R ON M.id = R. movieId \n" + 
+        				"GROUP BY M.title ORDER BY R.rating DESC LIMIT 20;";
         		// execute query
         		ResultSet resultSet = statement.executeQuery(query);
 
