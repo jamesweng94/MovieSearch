@@ -50,7 +50,7 @@ public class MovieServlet extends HttpServlet {
         				"LEFT JOIN genres_in_movies RM ON M.id = RM.movieId \n" + 
         				"LEFT JOIN genres G ON RM.genreId = G.id \n" + 
         				"LEFT JOIN ratings R ON M.id = R. movieId \n" + 
-        				"GROUP BY M.title ORDER BY R.rating DESC LIMIT 20;";
+        				"GROUP BY M.id ORDER BY R.rating DESC LIMIT 20;";
         		// execute query
         		ResultSet resultSet = statement.executeQuery(query);
 
