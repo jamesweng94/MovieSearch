@@ -55,18 +55,19 @@ public class MovieServlet extends HttpServlet {
         		ResultSet resultSet = statement.executeQuery(query);
 
         		out.println("<body>");
-        		out.println("<h1>Movies List</h1>");
+        		out.println("<h1 style='text-align:center;color:white;background-color:black;padding:10px'>"
+        				+ "Movies List</h1>");
         		
         		out.println("<table border>");
         		
         		// add table header row
         		out.println("<tr>");
-        		out.println("<td>title</td>");
-        		out.println("<td>year</td>");
-        		out.println("<td>director</td>");
-        		out.println("<td>genres</td>");
-        		out.println("<td>stars</td>");
-        		out.println("<td>rating</td>");
+        		out.println("<td style='text-align:center;font-weight:bold;font-size:25px'>Title</td>");
+        		out.println("<td style='text-align:center;font-weight:bold;font-size:25px'>Year</td>");
+        		out.println("<td style='text-align:center;font-weight:bold;font-size:25px'>Director</td>");
+        		out.println("<td style='text-align:center;font-weight:bold;font-size:25px'>Genres</td>");
+        		out.println("<td style='text-align:center;font-weight:bold;font-size:25px'>Stars</td>");
+        		out.println("<td style='text-align:center;font-weight:bold;font-size:25px'>Rating</td>");
         		out.println("</tr>");
         		
         		// add a row for every star result
@@ -81,11 +82,11 @@ public class MovieServlet extends HttpServlet {
         			
         			out.println("<tr>");
         			out.println("<td>" + movieTitle + "</td>");
-        			out.println("<td>" + movieYear + "</td>");
+        			out.println("<td align='center'>" + movieYear + "</td>");
         			out.println("<td>" + movieDirector + "</td>");
         			out.println("<td>" + movieGenres + "</td>");
         			out.println("<td>" + movieStars + "</td>");
-        			out.println("<td>" + movieRating + "</td>");
+        			out.println("<td align='center'>" + movieRating + "</td>");
         			out.println("</tr>");
         		}
         		
