@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Login to Fabflix</title>
+<link rel="stylesheet" type="text/css"
+        href="login.css">
+</head>
+<body>
+    <h1 id = "login_header">Fabflix</h1>
+    <div id = "loginBox">
+        <h1 class = "sign_in">Sign in</h1>
+        <form id = "login_form" method = "post" action="#">
+            <label><b>Email</b></label>
+            <input type="text" placeholder="Enter email" name="email">
+            <br>
+            <label><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" name="password">
+            <br>
+            <input type="submit" value="Login">
+        </form>
+        <div id = "login_error_message"></div>
+    </div>
+    
+    <!-- include jQuery-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<!-- include our own JS file -->
+	<script src="./login.js"></script>
+
+</body>
+</html>
