@@ -1,0 +1,72 @@
+@charset "UTF-8";
+body{
+	margin:0;
+	padding:0;
+	background-image:url('images/background.jpg');
+	background-position: center center;
+	background-repeat: no-repeat;
+ 	background-size: cover;
+	font-family: sans-serif;
+	width: 100vw;
+	height: 100vh;
+	overflow:hidden;
+}
+
+#login_header
+{
+	margin-top:25px;
+	font-size: 120px;
+	text-align: center;
+	color: #A52A2A;
+	font-style: oblique;
+}
+
+.sign_in{
+	text-align: center;
+	color:white;
+}
+
+#loginBox{
+	width:320px;
+	height: 420px;
+	background:rgba(0, 0, 0, 0.5);
+	top:50%;
+	left:80%;
+	position: absolute;
+	transform: translate(-50%,-50%);
+	box-sizing: border-box;
+	padding: 70px 30px;
+}
+
+#loginBox input{
+	width:100%;
+	height: 30px;
+	margin-bottom: 30px;
+}
+
+#loginBox input[type = "text"], input[type="password"]{
+	border:none;
+	border-bottom: 1px solid black;
+}
+#loginBox input[type = "submit"]{
+	border:none;
+	outline:none;
+	height:40px;
+	background: #fb2525;
+	color:white;
+	font-size:18px;
+	border-radius: 20px;
+}
+
+#loginBox input[type = "submit"]:hover{
+	cursor: pointer;
+}
+#loginBox label{
+	color:white;
+}
+
+#login_error_message{
+	font-size:15px;
+	color:red;
+	text-align: center;
+}
