@@ -3,8 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <title>Fabflix</title>
+<link rel="stylesheet" type="text/css"
+        href="index.css">
 </head>
 <body>
-<p> this is project2</p>
+    <h2 id = "title">Fabflix Movie Database</h2>
+    <div id = "search">
+        <form id = "search_bar" method = "get" action = "#">
+            <input type = "text" placeholder = "Please enter title, year, director, or star's name" name = "find">
+            <input type = "submit" value = "search">
+        </form>
+    </div>
+
+    <!-- include jQuery-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<!-- include our own JS file -->
+    <script src="./index.js"></script>
+    
 </body>
 </html>

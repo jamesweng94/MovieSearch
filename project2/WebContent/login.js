@@ -11,7 +11,7 @@ function handleLoginResult(resultDataString) {
 
     // If login success, redirect to index.html page
     if (resultDataJson["status"] === "success") {
-        window.location.replace("index.html");
+        window.location.replace("./MainPage/index.html");
     }
     // If login fail, display error message on <div> with id "login_error_message"
     else {
@@ -41,6 +41,11 @@ function submitLoginForm(formSubmitEvent) {
         // Serialize the login form to the data sent by POST request
         jQuery("#login_form").serialize(),
         (resultDataString) => handleLoginResult(resultDataString));
+        /*        
+         *  function a(resultDataString) {
+        	return handleLoginResult(resultDataString));
+        },
+        */
 
 }
 // Bind the submit action of the form to a handler function

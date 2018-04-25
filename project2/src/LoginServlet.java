@@ -60,8 +60,7 @@ public class LoginServlet extends HttpServlet {
                 // Login fail
                 JsonObject responseJsonObject = new JsonObject();
                 responseJsonObject.addProperty("status", "fail");
-                responseJsonObject.addProperty("message", "email " + email + " doesn't exist");
-                responseJsonObject.addProperty("message", "incorrect password");
+                responseJsonObject.addProperty("message", "Login error: Email " + email + " doesn't exist or incorrect password");
      
                 response.getWriter().write(responseJsonObject.toString());
             }
