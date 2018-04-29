@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, intial-scale=1.0">
 		<meta http-equiv="X-UA-Compatible" content="ie-edge">
 		<title>Fabflix</title>
-		<link href="index.css" rel="stylesheet">
+		<link href="index.css" type = "text/css" rel="stylesheet">
 		
 	</head>
 	<body>
@@ -18,11 +18,19 @@
 		<div id = "overlay">
 			<div class = "navigation-bar">
 				<h1 class = "top-logo">Fabflix</h1>
-				 <form class = "search-container">
-				     <input type="text" placeholder="Search for movies..." name ="search" >
-				     <button type="submit"> </button>
-				 </form>
+				 <form id = "search-container" action = "movie-list.html" method = "GET">
+					<input type="text" placeholder="Search for movies..." name ="search" >
+					<button type="submit" value = "Search"> </button>
+				</form> 
 			</div>
 		</div>
+
+		<!-- include jQuery-->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+		<!-- include our own JS file -->
+		<script src="movie-list.js"></script>
+
 	</body>
 </html>
