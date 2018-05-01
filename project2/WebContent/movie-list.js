@@ -23,17 +23,16 @@ function handleListResult(resultData){
         // Concatenate the html tags with resultData jsonObject
         let rowHTML = "";
         rowHTML += "<tr>";
-        rowHTML += "<th>" + resultData[i]["movie_id"] + "</th>"; 
-
+        rowHTML += "<th class = 'movie_info'>" + resultData[i]["movie_id"] + "</th>"; 
         rowHTML +=
-        "<th>" +
+        "<th class = 'movie_info'>" +
         '<a href="single-movie.html?id=' + resultData[i]['movie_id'] + '">'
         + resultData[i]["movie_title"] +   
         '</a>' +
         "</th>";   
 
-        rowHTML += "<th>" + resultData[i]["movie_year"] + "</th>";
-        rowHTML += "<th>" + resultData[i]["movie_dir"] + "</th>";   
+        rowHTML += "<th class = 'movie_info'>" + resultData[i]["movie_year"] + "</th>";
+        rowHTML += "<th class = 'movie_info'>" + resultData[i]["movie_dir"] + "</th>";   
 
         var j = 0;
         var generes_row = "";
@@ -41,58 +40,145 @@ function handleListResult(resultData){
             generes_row += (resultData[i]["movie_genres"][j] + " ");
             j++;
         }
-        rowHTML += "<th>" + generes_row + "</th>";   
+        rowHTML += "<th class = 'movie_info'>" + generes_row + "</th>";   
 	
-        /*
-        let generes_row = "";
-        resultData[i]["movie_genres"].forEach(function(item){
-           genres_row += item + " ";
-        })
-        rowHTML+="<th>" + generes_row + "</th>";
-        */
-
         let star_row = "";
         resultData[i]["movie_star"].forEach(function(item, index){
-            let temp = '<a href="single-star.html?id=' + resultData[i]["movie_starID"] + '">' + item +'</a>';
+            let temp = '<a href="single-star.html?name=' + item + '">' + item +'</a>';
            star_row += temp + ", ";
         })
-        rowHTML += "<th>" + star_row + "</th>";   
+        rowHTML += "<th class = 'movie_info'>" + star_row + "</th>";   
 
-        rowHTML += "<th>" + resultData[i]["movie_rating"] + "</th>";
+        rowHTML += "<th class = 'movie_info'>" + resultData[i]["movie_rating"] + "</th>";
         rowHTML += "</tr>";
-
         // Append the row created to the table body, which will refresh the page
         tableBodyElement.append(rowHTML);
     }
 }
 
-let target = getParameterByName('search');
-jQuery.ajax({
-    dataType: "json", 
-    url: "api/list?search=" + target,
-    type: "GET",
-    success: (resultData) => handleListResult(resultData),
-    error: function(){
-        alert("error");
-    }           
+function sortTable(f, n) {
+    var rows = $('#movie_table tbody  tr').get();
+    rows.sort(function(a, b) {
+        var A = getVal(a);
+        var B = getVal(b);
+
+        if(A < B) {
+            return -1 * f;
+        }
+        if(A > B) {
+            return 1 * f;
+        }
+        return 0;
+    })
+
+    function getVal(elm){
+        var v = $(elm).children('.movie_info').eq(n).text().toUpperCase();
+        if($.isNumeric(v)){
+            v = parseInt(v,10);
+        }
+        return v;
+    }
+
+    $.each(rows, function(index, row) {
+        $('#movie_table').children('tbody').append(row);
+    });
+}
+
+var f_sl = 1; // flag to toggle the sorting order
+var f_nm = 1; // flag to toggle the sorting order
+$("#sort_title").click(function(){
+    f_sl *= -1; // toggle the sorting order
+    var n = $(this).prevAll().length;
+    sortTable(f_sl,n);
+});
+$("#sort_rating").click(function(){
+    f_nm *= -1; // toggle the sorting order
+    var n = $(this).prevAll().length;
+    sortTable(f_nm,n);
 });
 
+
+let action = getParameterByName('action');
+
+if (!action) {
+    jQuery.ajax({
+        dataType: "json", 
+        url: "api/list",
+        data: {action: "search",
+        		search: getParameterByName("search")},
+        type: "GET",
+        success: (resultData) => handleListResult(resultData),
+        error: function(){
+            alert("error");
+        }           
+    });
+    
+}
+
+else {
+    jQuery.ajax({
+        dataType: "json", 
+        method: "GET", 
+        url: "api/list",
+        data: { action: "browse",
+        		by: getParameterByName("by"),
+               value: getParameterByName("value") },
+        success: (resultData) => handleListResult(resultData) 
+    });
+    
+}
+/*
+let target = getParameterByName('search');
+let genres = getParameterByName('genres');
+if(target !== undefined){
+    jQuery.ajax({
+        dataType: "json", 
+        url: "api/list?search=" + target,
+        type: "GET",
+        success: (resultData) => handleListResult(resultData),
+        error: function(){
+            alert("error");
+        }           
+    });
+}
+
+if(genres!==undefined){
+    jQuery.ajax({
+        dataType: "json", 
+        url: "api/list?genres=" + genres,
+        type: "GET",
+        success: (resultData) => handleListResult(resultData),
+        error: function(){
+            alert("error");
+        }           
+    });  
+}
+
+
+jQuery.ajax({
+    dataType: "json", 
+    method: "GET", 
+    url: "api/list",
+    data: {by: getParameterByName("by"),
+    	   value: getParameterByName("value") },
+    success: (resultData) => handleListResult(resultData) 
+});
+*/
 $(document).ajaxComplete(function(){
     var currentLimit = 10;
     var rowCount = $("#movie_table tr").length;
     var totalPage;
-    var limitChanged = false;
     //show limit number of content in a page
-    $("#movie_table tr:gt(10)").hide();
+    //$("#movie_table tr:gt(10)").hide();
     $('#page-limit').on('change', function(){
         pageLimit = this.value;
         $("#movie_table tr").show();
         $("#movie_table tr:gt(" + parseInt(pageLimit) + ")").hide();
         currentLimit = parseInt(pageLimit);
-        limitChanged = true;
 
         totalPage = Math.ceil(rowCount/ currentLimit);
         $(".pagination li").remove(); 
+
         $(".pagination").append("<li id='previous-page'><a href='javascript:void(0)' aria-label=Previous><span aria-hidden=true>&laquo;</span></a></li>");
         $(".pagination").append("<li class='current-page active'><a href='javascript:void(0)'>" + 1 + "</a></li>");
         for (var i = 2; i <= totalPage; i++) {
@@ -103,7 +189,19 @@ $(document).ajaxComplete(function(){
         $(".pagination li.current-page").on("click", function() {
             if ($(this).hasClass('active')) {
                 return false;
-            } else {
+            } else {    
+                /*       
+                if (!($(this).hasClass('visited'))) {
+                    alert("page visited");
+                    $(this).addClass('visited');
+                    let header_row = "<th>ID</th><th id = 'sort_title'>Title</th><th>Year</th>" + 
+                    "<th>Director</th>" +
+                    "<th>Genres</th>" +
+                    "<th>Stars</th>" +
+                    "<th id = 'sort_rating'>Rating</th>";
+                    $('#movie_table').children('thead').append(header_row);
+                }
+                */
                 var currentPage = $(this).index(); 
                 $(".pagination li").removeClass('active'); 
                 $(this).addClass('active');
@@ -147,6 +245,7 @@ $(document).ajaxComplete(function(){
                 $("#movie_table tr:eq(" + i + ")").show();
                 }
                 $(".pagination li.current-page:eq(" + (current_page - 1) + ")").addClass('active');
+
             }
         })
     })

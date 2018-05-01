@@ -15,8 +15,6 @@ function getParameterByName(target) {
 }
 
 function handleResult(resultData) {
-    console.log("handleResult: populating movie table from resultData");
-
     // Populate the star table
     // Find the empty table body by id "movie_table_body"
     let movieTableBodyElement = jQuery("#single_movie_table_body");
@@ -29,12 +27,12 @@ function handleResult(resultData) {
         rowHTML += "<th>" + resultData[i]["movie_title"] + "</th>";
         rowHTML += "<th>" + resultData[i]["movie_year"] + "</th>";
         rowHTML += "<th>" + resultData[i]["movie_dir"] + "</th>";
-        rowHTML += "<th>" + resultData[i]["movie_genres"] + "</th>";  
 
         var j = 0;
         var generes_row = "";
         while(resultData[i]["movie_genres"][j] !== undefined){
-            var temp = '<a href="movie-list.html?genres=' + resultData[i]["movie_genres"][j] + '">' + resultData[i]["movie_genres"][j] +'</a>';
+            console.log("generes to find: " + resultData[i]["movie_genres"][j]);
+            var temp = '<a href="movie-list.html?action=browse&by=genre&value=' + resultData[i]["movie_genres"][j] + '">' + resultData[i]["movie_genres"][j] +'</a>';
             generes_row += temp + " ";
             j++;
         }
@@ -54,7 +52,6 @@ function handleResult(resultData) {
         movieTableBodyElement.append(rowHTML);
     }
 }
-
 
 let movieID = getParameterByName('id');
 

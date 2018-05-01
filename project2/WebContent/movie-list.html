@@ -10,6 +10,7 @@ integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6J
 <title>Movie Search Result</title>
 </head>
 <body>
+    <a href = "javascript:history.back()">Go Back</a>
     <div class = "container" style = "margin-top:35px">
             <select id = "page-limit" name = "limit" >
                 <option value = "10">10</option>
@@ -22,21 +23,23 @@ integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6J
             <thead>
             <tr>
                 <th>ID</th>
-                <th>Title</th>
+                <th id = "sort_title">Title</th>
                 <th>Year</th>
                 <th>Director</th>
                 <th>Genres</th>
                 <th>Stars</th>
-                <th>Rating</th>
+                <th id = "sort_rating">Rating</th>
+                <th>Shopping Cart</th>
             </tr>
             </thead>
             <tbody id=movie_table_body></tbody>
         </table>
-        <nav aria-label=...>
-            <ul class=pagination>
-              <li id="previous-page"><a href="javascript:void(0)" aria-label=Previous><span aria-hidden=true>&laquo;</span></a></li>
+        <nav aria-label="...">
+            <ul class="pagination">
+              <li id="previous-page"><a href="javascript:void(0)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
             </ul>
           </nav>
+
     </div>
  	 <!-- include jQuery-->
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

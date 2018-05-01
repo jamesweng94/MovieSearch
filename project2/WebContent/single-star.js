@@ -11,33 +11,28 @@ function getParameterByName(target) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
-function handleResult(resultData) {
+function handleSingleStarResult(resultData) {
 	
-    let starInfoElement = jQuery("#star_info");
+	let SingleStarTableBodyElement = jQuery("#single_star_table_body");
 
-    starInfoElement.append("<p>Star Name: " + resultData[0]["star_name"] + "</p>" +
-        "<p>Date Of Birth: " + resultData[0]["star_dob"] + "</p>");
-
-    let movieTableBodyElement = jQuery("#movie_table_body");
-
-    for (let i = 0; i < resultData.length; ++i) {
+    for (let i = 0; i < Math.min(10, resultData.length); i++) {
         let rowHTML = "";
         rowHTML += "<tr>";
-        rowHTML += "<th>" + resultData[i]["movie_title"] + "</th>";
-        rowHTML += "<th>" + resultData[i]["movie_year"] + "</th>";
-        rowHTML += "<th>" + resultData[i]["movie_director"] + "</th>";
+        
+        rowHTML += "<th>" + resultData[i]["star_name"] + "</th>";
+        rowHTML += "<th>" + resultData[i]["star_birthyear"] + "</th>";
+        rowHTML += "<th>" + resultData[i]["star_movies"] + "</th>";
+        
         rowHTML += "</tr>";
 
-        movieTableBodyElement.append(rowHTML);
+        SingleStarTableBodyElement.append(rowHTML);
     }
 }
 
-
-let starId = getParameterByName('id');
-
 jQuery.ajax({
     dataType: "json", 
-    method: "GET",
-    url: "api/single-star?id=" + starId,
-    success: (resultData) => handleResult(resultData)
+    method: "GET", 
+    url: "api/single-star", 
+    data: {id: getParameterByName("id")},
+    success: (resultData) => handleSingleStarResult(resultData) 
 });

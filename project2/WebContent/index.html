@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, intial-scale=1.0">
 		<meta http-equiv="X-UA-Compatible" content="ie-edge">
 		<title>Fabflix</title>
-		<link href="index.css" type = "text/css" rel="stylesheet">
+		<link href="index.css" rel="stylesheet">
 		
 	</head>
 	<body>
@@ -18,7 +18,105 @@
 		<div id = "overlay">
 			<div class = "navigation-bar">
 				<h1 class = "top-logo">Fabflix</h1>
-				 <form id = "search-container" action = "movie-list.html" method = "GET">
+				
+				 <div class="genre-dropdown">
+				    <button class="dropbtn">Genres
+				      <i class="fa fa-caret-down"></i>
+				    </button>
+				    <div class="dropdown-content">
+				    <div class="row">
+				        <div class="column">
+				          <a href="movie-list.html?action=browse&by=genre&value=Adult">Adult</a>
+				          <a href="movie-list.html?action=browse&by=genre&value=Adventure">Adventure</a>
+				          <a href="movie-list.html?action=browse&by=genre&value=Animation">Animation</a>
+				          <a href="movie-list.html?action=browse&by=genre&value=Biography">Biography</a>
+				          <a href="movie-list.html?action=browse&by=genre&value=Comedy">Comedy</a>
+				        </div>
+				        <div class="column">
+				          <a href="movie-list.html?action=browse&by=genre&value=Crime">Crime</a>
+				          <a href="movie-list.html?action=browse&by=genre&value=Documentary">Documentary</a>
+				          <a href="movie-list.html?action=browse&by=genre&value=Drama">Drama</a>
+				          <a href="movie-list.html?action=browse&by=genre&value=Family">Family</a>
+				          <a href="movie-list.html?action=browse&by=genre&value=Fantasy">Fantasy</a>
+				          <a href="movie-list.html?action=browse&by=genre&value=History">History</a>
+				        </div>
+				        <div class="column">
+				          <a href="movie-list.html?action=browse&by=genre&value=Horror">Horror</a>
+				          <a href="movie-list.html?action=browse&by=genre&value=Music">Music</a>
+				          <a href="movie-list.html?action=browse&by=genre&value=Musical">Musical</a>
+				          <a href="movie-list.html?action=browse&by=genre&value=Mystery">Mystery</a>
+				          <a href="movie-list.html?action=browse&by=genre&value=Reality-TV">Reality-TV</a>
+				          <a href="movie-list.html?action=browse&by=genre&value=Romance">Romance</a>
+				        </div>
+				        <div class="column">
+				          <a href="movie-list.html?action=browse&by=genre&value=Sci-Fi">Sci-Fi</a>
+				          <a href="movie-list.html?action=browse&by=genre&value=Sport">Sport</a>
+				          <a href="movie-list.html?action=browse&by=genre&value=Thriller">Thriller</a>
+				          <a href="movie-list.html?action=browse&by=genre&value=War">War</a>
+				          <a href="movie-list.html?action=browse&by=genre&value=Western">Western</a>
+				        </div>
+				    </div>  
+				 </div>
+			</div>
+				 
+				 
+				 <div class="titles-dropdown">
+				    <button class="dropbtn"> Titles
+				      <i class="fa fa-caret-down"></i>
+				    </button>
+				    <div class="dropdown-content">
+				    <div class="row">
+				        <div class="column">
+				          <a href="movie-list.html?action=browse&by=title&value=0">0</a>
+				          <a href="movie-list.html?action=browse&by=title&value=1">1</a>
+				          <a href="movie-list.html?action=browse&by=title&value=2">2</a>
+				          <a href="movie-list.html?action=browse&by=title&value=3">3</a>
+				          <a href="movie-list.html?action=browse&by=title&value=4">4</a>
+				          <a href="movie-list.html?action=browse&by=title&value=5">5</a>
+				          <a href="movie-list.html?action=browse&by=title&value=6">6</a>
+				          <a href="movie-list.html?action=browse&by=title&value=7">7</a>
+				        </div>
+				        <div class="column">
+				          <a href="movie-list.html?action=browse&by=title&value=8">8</a>
+				          <a href="movie-list.html?action=browse&by=title&value=9">9</a>
+				          <a href="movie-list.html?action=browse&by=title&value=A">A</a>
+				          <a href="movie-list.html?action=browse&by=title&value=B">B</a>
+				          <a href="movie-list.html?action=browse&by=title&value=C">C</a>
+				          <a href="movie-list.html?action=browse&by=title&value=D">D</a>
+				          <a href="movie-list.html?action=browse&by=title&value=E">E</a>
+				          <a href="movie-list.html?action=browse&by=title&value=F">F</a>
+				        </div>
+				        <div class="column">
+				          <a href="movie-list.html?action=browse&by=title&value=G">G</a>
+				          <a href="movie-list.html?action=browse&by=title&value=H">H</a>
+				          <a href="movie-list.html?action=browse&by=title&value=I">I</a>
+				          <a href="movie-list.html?action=browse&by=title&value=J">J</a>
+				          <a href="movie-list.html?action=browse&by=title&value=K">K</a>
+				          <a href="movie-list.html?action=browse&by=title&value=L">L</a>
+				          <a href="movie-list.html?action=browse&by=title&value=M">M</a>
+				          <a href="movie-list.html?action=browse&by=title&value=N">N</a>
+				        </div>
+				        <div class="column">
+				          <a href="movie-list.html?action=browse&by=title&value=O">O</a>
+				          <a href="movie-list.html?action=browse&by=title&value=P">P</a>
+				          <a href="movie-list.html?action=browse&by=title&value=Q">Q</a>
+				          <a href="movie-list.html?action=browse&by=title&value=R">R</a>
+				          <a href="movie-list.html?action=browse&by=title&value=S">S</a>
+				          <a href="movie-list.html?action=browse&by=title&value=T">T</a>
+				          <a href="movie-list.html?action=browse&by=title&value=U">U</a>
+				          <a href="movie-list.html?action=browse&by=title&value=V">V</a>
+				        </div>
+				        <div class="column">
+				          <a href="movie-list.html?action=browse&by=title&value=W">W</a>
+				          <a href="movie-list.html?action=browse&by=title&value=X">X</a>
+				          <a href="movie-list.html?action=browse&by=title&value=Y">Y</a>
+				          <a href="movie-list.html?action=browse&by=title&value=Z">Z</a>
+				        </div>
+				    </div>  
+				 </div>
+			</div>
+				 
+				<form class = "search-container" action = "movie-list.html" method = "GET">
 					<input type="text" placeholder="Search for movies..." name ="search" >
 					<button type="submit" value = "Search"> </button>
 				</form> 
