@@ -107,10 +107,7 @@ if (!action) {
         data: {action: "search",
         		search: getParameterByName("search")},
         type: "GET",
-        success: (resultData) => handleListResult(resultData),
-        error: function(){
-            alert("error");
-        }           
+        success: (resultData) => handleListResult(resultData)          
     });
     
 }
@@ -127,49 +124,13 @@ else {
     });
     
 }
-/*
-let target = getParameterByName('search');
-let genres = getParameterByName('genres');
-if(target !== undefined){
-    jQuery.ajax({
-        dataType: "json", 
-        url: "api/list?search=" + target,
-        type: "GET",
-        success: (resultData) => handleListResult(resultData),
-        error: function(){
-            alert("error");
-        }           
-    });
-}
 
-if(genres!==undefined){
-    jQuery.ajax({
-        dataType: "json", 
-        url: "api/list?genres=" + genres,
-        type: "GET",
-        success: (resultData) => handleListResult(resultData),
-        error: function(){
-            alert("error");
-        }           
-    });  
-}
-
-
-jQuery.ajax({
-    dataType: "json", 
-    method: "GET", 
-    url: "api/list",
-    data: {by: getParameterByName("by"),
-    	   value: getParameterByName("value") },
-    success: (resultData) => handleListResult(resultData) 
-});
-*/
 $(document).ajaxComplete(function(){
     var currentLimit = 10;
     var rowCount = $("#movie_table tr").length;
     var totalPage;
     //show limit number of content in a page
-    //$("#movie_table tr:gt(10)").hide();
+        //$("#movie_table tr:gt(10)").hide();
     $('#page-limit').on('change', function(){
         pageLimit = this.value;
         $("#movie_table tr").show();

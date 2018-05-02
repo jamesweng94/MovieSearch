@@ -40,7 +40,7 @@ function handleResult(resultData) {
 
         let star_row = "";
         resultData[i]["movie_star"].forEach(function(item){
-            let temp = '<a href="single-star.html?id=' + item + '">' + item +'</a>';
+            let temp = '<a href="single-star.html?name=' + item + '">' + item +'</a>';
            star_row += temp + ", ";
         })
         rowHTML += "<th>" + star_row + "</th>"; 

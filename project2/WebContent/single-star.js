@@ -33,6 +33,6 @@ jQuery.ajax({
     dataType: "json", 
     method: "GET", 
     url: "api/single-star", 
-    data: {id: getParameterByName("id")},
+    data: {name: getParameterByName("name")},
     success: (resultData) => handleSingleStarResult(resultData) 
 });

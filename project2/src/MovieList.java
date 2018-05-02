@@ -95,42 +95,9 @@ public class MovieList extends HttpServlet {
 	            		"M.year LIKE '%" + target + "%' OR\n" +
 	            		"M.director LIKE '%" + target + "%'\n" + 
 	            		"GROUP BY M.id, M.title, M.year, M.director, R.rating;";
-				
 			}
 			
 			
-        	
-        	/*
-            // Get a connection from dataSource
-            Connection dbcon = dataSource.getConnection();
-
-            // Declare our statement
-            Statement statement = dbcon.createStatement();
-
-            String query = "SELECT DISTINCT M.id, M.title, M.year, M.director, GROUP_CONCAT(DISTINCT G.name SEPARATOR ', ') AS genres, GROUP_CONCAT(DISTINCT S.name SEPARATOR ', ') AS stars, R.rating \n" + 
-            		"FROM movies M \n" + 
-            		"LEFT JOIN stars_in_movies SM ON M.id = SM.movieId \n" + 
-            		"LEFT JOIN stars S ON SM.starId = S.id\n" + 
-            		"LEFT JOIN genres_in_movies RM ON M.id = RM.movieId \n" + 
-            		"LEFT JOIN genres G ON RM.genreId = G.id\n" + 
-            		"LEFT JOIN ratings R ON M.id = R. movieId \n" + 
-            		"WHERE M.title LIKE '%" + target + "%' OR\n" + 
-            		"M.year LIKE '%" + target + "%' OR\n" +
-            		"M.director LIKE '%" + target + "%'\n" + 
-            		"GROUP BY M.id, M.title, M.year, M.director, R.rating;";
-
-            if(findGenres != null) {
-            	query = "SELECT DISTINCT M.id, M.title, M.year, M.director, GROUP_CONCAT(DISTINCT G.name SEPARATOR ', ') AS genres , GROUP_CONCAT(DISTINCT S.name SEPARATOR ', ') AS stars,GROUP_CONCAT(DISTINCT S.id SEPARATOR ', ') AS starsID, R.rating\n" + 
-            			"FROM movies M\n" + 
-            			"LEFT JOIN stars_in_movies SM ON M.id = SM.movieId\n" + 
-            			"LEFT JOIN stars S ON SM.starId = S.id\n" + 
-            			"LEFT JOIN genres_in_movies RM ON M.id = RM.movieId\n" + 
-            			"LEFT JOIN genres G ON RM.genreId = G.id\n" + 
-            			"LEFT JOIN ratings R ON M.id = R. movieId\n" + 
-            			"WHERE G.name = '"+findGenres +"'\n" + 
-            			"GROUP BY M.id, M.title, M.year, M.director, R.rating LIMIT 400;";
-            }
-	*/
             // Perform the query
             ResultSet rs = statement.executeQuery(query);
 
