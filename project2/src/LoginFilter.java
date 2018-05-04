@@ -40,7 +40,7 @@ public class LoginFilter implements Filter {
     private boolean isUrlAllowedWithoutLogin(String requestURI) {
         requestURI = requestURI.toLowerCase();
 
-        return requestURI.endsWith("login.html") || requestURI.endsWith("login.js")
+        return requestURI.endsWith("login.html") || requestURI.endsWith("js/login.js")
                 || requestURI.endsWith("api/login") || requestURI.endsWith("css") ||requestURI.endsWith("jpg")  ;
         
     }

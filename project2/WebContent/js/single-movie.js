@@ -46,6 +46,15 @@ function handleResult(resultData) {
         rowHTML += "<th>" + star_row + "</th>"; 
 
         rowHTML += "<th>" + resultData[i]["movie_rating"] + "</th>";
+
+        rowHTML += "<th>" +
+        "<div id = 'single_movie_input'>" + 
+        "<form class = 'add-to-cart' action = 'shopping-cart.html' method = 'GET'>" +
+        "<input type = 'hidden' value = '"+ resultData[i]["movie_title"] + "' name = 'title'>" + 
+        "<input type = 'hidden' value = 'add' name = 'todo'>"+
+        "<input type = 'submit' value = 'Add to cart' class='btn'></form></div>"
+            + "</th>";
+
         rowHTML += "</tr>";
 
         // Append the row created to the table body, which will refresh the page
@@ -53,11 +62,14 @@ function handleResult(resultData) {
     }
 }
 
-let movieID = getParameterByName('id');
+$("#goCheckout").click(function(){
+	window.location.replace("shopping-cart.html");
+});
 
+let movieID = getParameterByName('name');
 jQuery.ajax({
     dataType: "json",  
     method: "GET",
-    url: "api/single-movie?id=" + movieID,
+    url: "api/single-movie?name=" + movieID,
     success: (resultData) => handleResult(resultData)
 });

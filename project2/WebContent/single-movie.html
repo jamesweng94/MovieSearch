@@ -9,13 +9,16 @@
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-          
+<link href="css/style.css" rel="stylesheet">
+
 <title>Single Movie Page</title>
 </head>
 <body>
 <h1>Single Movie Page</h1>
-<a href = "javascript:history.back()">Go Back</a>
-<h3 id="movie_info"></h3>
+<a href = "javascript:history.back()" style="float:left; padding:10px; box-sizing: border-box;">Go Back</a>
+<form id = "goCheckout" style = "box-sizing: border-box; padding:20px; float: right" action = "shopping-cart.html">
+	<input type = "button" value = "Check Out" class="btn">
+</form><h3 id="movie_info"></h3>
 <table id=single_movie_table class="table table-striped">
     <thead>
     <tr>
@@ -26,7 +29,6 @@
         <th>List of Genres</th>
         <th>List of Stars</th>
         <th>Rating</th>
-        <th>
     </tr>
     </thead>
 
@@ -40,6 +42,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
-<script src="single-movie.js"></script>
+<script src="js/single-movie.js"></script>
+<script src="js/movie-list.js"></script>
 </body>
 </html>

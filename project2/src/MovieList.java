@@ -34,7 +34,6 @@ public class MovieList extends HttpServlet {
 		//String findGenres = request.getParameter("genres");
 		
 		String action = request.getParameter("action");
-		System.out.println(action);
 		
 		
         // Output stream to STDOUT
@@ -95,9 +94,8 @@ public class MovieList extends HttpServlet {
 	            		"M.year LIKE '%" + target + "%' OR\n" +
 	            		"M.director LIKE '%" + target + "%'\n" + 
 	            		"GROUP BY M.id, M.title, M.year, M.director, R.rating;";
+				
 			}
-			
-			
             // Perform the query
             ResultSet rs = statement.executeQuery(query);
 

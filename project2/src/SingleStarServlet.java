@@ -31,7 +31,7 @@ public class SingleStarServlet extends HttpServlet {
 		
 		PrintWriter out = response.getWriter();
 		
-		try {
+		try { 
 			Connection dbcon = dataSource.getConnection();
 			Statement statement = dbcon.createStatement();
 			JsonArray jsonArray = new JsonArray();
@@ -50,12 +50,19 @@ public class SingleStarServlet extends HttpServlet {
 				String star_name = rs.getString("name");
 				String star_birthyear = rs.getString("birthYear");
 				String star_movies = rs.getString("movies");
-
+				
+				String [] movies = star_movies.split(", ");
+				JsonArray movies_array = new JsonArray();
+				
+				for (int i = 0; i < movies.length; ++i) {
+			        movies_array.add(movies[i]);
+				}
+				
                 // Create a JsonObject based on the data we retrieve from rs
                 JsonObject jsonObject = new JsonObject();
                 jsonObject.addProperty("star_name", star_name);
                 jsonObject.addProperty("star_birthyear", star_birthyear);
-                jsonObject.addProperty("star_movies", star_movies);
+                jsonObject.add("star_movies", movies_array);
                  
                 jsonArray.add(jsonObject);
 			}

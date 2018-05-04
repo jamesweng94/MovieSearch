@@ -21,13 +21,23 @@ function handleSingleStarResult(resultData) {
         
         rowHTML += "<th>" + resultData[i]["star_name"] + "</th>";
         rowHTML += "<th>" + resultData[i]["star_birthyear"] + "</th>";
-        rowHTML += "<th>" + resultData[i]["star_movies"] + "</th>";
         
+        var movies_row = "";
+        resultData[i]["star_movies"].forEach(function(item, index){
+           let temp = '<a href="single-movie.html?name=' + item + '">' + item +'</a>';
+           movies_row += temp + ", ";
+        })
+        rowHTML += "<th class = 'movie_info'>" + movies_row + "</th>";  
         rowHTML += "</tr>";
 
         SingleStarTableBodyElement.append(rowHTML);
     }
 }
+
+$("#goCheckout").click(function(){
+	window.location.replace("shopping-cart.html");
+});
+
 
 jQuery.ajax({
     dataType: "json", 

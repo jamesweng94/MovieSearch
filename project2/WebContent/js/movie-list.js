@@ -1,4 +1,3 @@
-
 function getParameterByName(target) {
     // Get request URL
     let url = window.location.href;
@@ -26,7 +25,7 @@ function handleListResult(resultData){
         rowHTML += "<th class = 'movie_info'>" + resultData[i]["movie_id"] + "</th>"; 
         rowHTML +=
         "<th class = 'movie_info'>" +
-        '<a href="single-movie.html?id=' + resultData[i]['movie_id'] + '">'
+        '<a href="single-movie.html?name=' + resultData[i]['movie_title'] + '">'
         + resultData[i]["movie_title"] +   
         '</a>' +
         "</th>";   
@@ -37,19 +36,29 @@ function handleListResult(resultData){
         var j = 0;
         var generes_row = "";
         while(resultData[i]["movie_genres"][j] !== undefined){
-            generes_row += (resultData[i]["movie_genres"][j] + " ");
+            generes_row += (resultData[i]["movie_genres"][j] + " ") + ", ";
             j++;
         }
+     
         rowHTML += "<th class = 'movie_info'>" + generes_row + "</th>";   
 	
-        let star_row = "";
+        var star_row = "";
         resultData[i]["movie_star"].forEach(function(item, index){
-            let temp = '<a href="single-star.html?name=' + item + '">' + item +'</a>';
+           let temp = '<a href="single-star.html?name=' + item + '">' + item +'</a>';
            star_row += temp + ", ";
         })
         rowHTML += "<th class = 'movie_info'>" + star_row + "</th>";   
 
         rowHTML += "<th class = 'movie_info'>" + resultData[i]["movie_rating"] + "</th>";
+
+        rowHTML += "<th class = 'movie_info'>" +
+        "<div id = 'single_movie_input'>" + 
+        "<form id = 'add-to-cart' action = 'shopping-cart.html' method = 'GET'>" +
+        "<input type = 'hidden' value = '"+ resultData[i]["movie_title"] + "' name = 'title'>" + 
+        "<input type = 'hidden' value = 'add' name = 'todo'>"+
+        "<input type = 'submit' value = 'Add to cart' class='btn'></form></div>"
+            + "</th>";
+
         rowHTML += "</tr>";
         // Append the row created to the table body, which will refresh the page
         tableBodyElement.append(rowHTML);
@@ -97,7 +106,6 @@ $("#sort_rating").click(function(){
     sortTable(f_nm,n);
 });
 
-
 let action = getParameterByName('action');
 
 if (!action) {
@@ -107,7 +115,8 @@ if (!action) {
         data: {action: "search",
         		search: getParameterByName("search")},
         type: "GET",
-        success: (resultData) => handleListResult(resultData)          
+        success: (resultData) => handleListResult(resultData),
+          
     });
     
 }
@@ -125,12 +134,16 @@ else {
     
 }
 
+$("#goCheckout").click(function(){
+	window.location.replace("shopping-cart.html");
+});
+
 $(document).ajaxComplete(function(){
     var currentLimit = 10;
     var rowCount = $("#movie_table tr").length;
     var totalPage;
     //show limit number of content in a page
-        //$("#movie_table tr:gt(10)").hide();
+    //$("#movie_table tr:gt(10)").hide();
     $('#page-limit').on('change', function(){
         pageLimit = this.value;
         $("#movie_table tr").show();

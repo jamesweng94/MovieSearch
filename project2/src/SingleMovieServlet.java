@@ -35,10 +35,11 @@ public class SingleMovieServlet extends HttpServlet {
 		response.setContentType("application/json"); // Response mime type
 
 		// Retrieve parameter id from url request.
-		String id = request.getParameter("id");
+		String name = request.getParameter("name");
 
 		// Output stream to STDOUT
 		PrintWriter out = response.getWriter();
+	
 		
 		try {
 			 Connection dbcon = dataSource.getConnection();
@@ -53,11 +54,11 @@ public class SingleMovieServlet extends HttpServlet {
 	            		"LEFT JOIN genres_in_movies RM ON M.id = RM.movieId \n" + 
 	            		"LEFT JOIN genres G ON RM.genreId = G.id\n" + 
 	            		"LEFT JOIN ratings R ON M.id = R. movieId \n" + 
-	            		"WHERE  M.id = '" + id + "' \n" +  
+	            		"WHERE  M.title = '" + name + "' \n" +  
 	            		"GROUP BY M.id, M.title, M.year, M.director, R.rating;";
 
 	            
-
+	          
 	            // Perform the query
 	            ResultSet rs = statement.executeQuery(query);
 
