@@ -134,8 +134,9 @@ if (!action) {
         	   title: urlParams["title"],
         	   year: urlParams["year"],
         	   director: urlParams["director"],
-               star: urlParams["star"]
-            },
+               star: urlParams["star"],
+               page: "1",
+               limit: "10"},
         success: (resultData) => handleListResult(resultData)      
     });
 }
@@ -146,10 +147,11 @@ else {
         url: "api/list",
         data: { action: "browse",
         		by: getParameterByName("by"),
-                value: getParameterByName("value")},
+                value: getParameterByName("value"),
+                page: "1",
+                limit: "10" },
         success: (resultData) => handleListResult(resultData) 
-    });
-    
+    });  
 }
 
 $("#goCheckout").click(function(){

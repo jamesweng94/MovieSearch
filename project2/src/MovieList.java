@@ -49,6 +49,13 @@ public class MovieList extends HttpServlet {
 			Statement statement = dbcon.createStatement();
 			JsonArray jsonArray = new JsonArray();
 			
+			int current_page = Integer.parseInt(request.getParameter("page"));
+			int current_limit = Integer.parseInt(request.getParameter("limit"));
+
+			System.out.println("current page: " + current_page);
+			System.out.println("current limit: " + current_limit);
+
+			
 			String query = "";
 			
 			if (action.equals("browse")) {
@@ -66,7 +73,8 @@ public class MovieList extends HttpServlet {
 							"LEFT JOIN genres_in_movies GM ON GM.movieId = T.id\n"+
 							"LEFT JOIN genres G ON G.id = GM.genreId\n"+
 							"LEFT JOIN ratings R ON R.movieId = M.id\n"+
-							"GROUP BY M.id, M.title, M.year, M.director, R.rating;"; }
+							"GROUP BY M.id, M.title, M.year, M.director, R.rating LIMIT 500;"; }
+	//						"GROUP BY M.id, M.title, M.year, M.director, R.rating LIMIT " + (current_page - 1) * current_limit + ", " + current_limit+";"; }
 				else {
 					
 					query = "SELECT M.id, M.title, M.year, M.director, GROUP_CONCAT(DISTINCT G.name SEPARATOR ', ') AS genres, GROUP_CONCAT(DISTINCT S.name SEPARATOR', ') AS stars, R.rating\n" + 
@@ -77,7 +85,7 @@ public class MovieList extends HttpServlet {
 							"LEFT JOIN genres_in_movies GM ON GM.movieId = T.id\n" +
 							"LEFT JOIN genres G ON G.id = GM.genreId\n" +
 							"LEFT JOIN ratings R ON R.movieId = M.id\n" +
-							"GROUP BY M.id, M.title, M.year, M.director, R.rating\n";
+							"GROUP BY M.id, M.title, M.year, M.director, R.rating LIMIT 500";
 				}
 			}
 			
@@ -129,7 +137,7 @@ public class MovieList extends HttpServlet {
 	            		"LEFT JOIN genres G ON RM.genreId = G.id\n" + 
 	            		"LEFT JOIN ratings R ON M.id = R.movieId \n" + 
 	            		query_limit +
-	            		"GROUP BY M.id, M.title, M.year, M.director, R.rating;";				
+	            		"GROUP BY M.id, M.title, M.year, M.director, R.rating LIMIT 500";				
 			}
             // Perform the query
             ResultSet rs = statement.executeQuery(query);
