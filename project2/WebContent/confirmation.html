@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Confirmation Page</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="css/style.css" rel="stylesheet">
+
+</head>
+<body>
+<h1 style="text-align: center">Confirmation Page</h1>
+<h3>Order Details</h3>
+<table class="shopping-cart" class="table table-striped" style="float:left; width:50%">
+    <thead>
+      <tr>
+          <th scope="col">Item</th>
+          <th scope="col">Qty</th>
+      </tr>
+    </thead>
+    <tbody id = "shopping_cart_table"></tbody>
+  </table>
+
+  <table class="shopping-cart" class="table table-striped" style="float: right; width:50%">
+        <thead>
+          <tr>
+              <th scope="col">Sales ID</th>
+          </tr>
+        </thead>
+        <tbody id = "sales_id_table"></tbody>
+      </table>
+
+  <ul id="shopping-cart-actions">
+          <li>
+              <input id = "backToMain" type = "button" value = "Back to Main Page" class="btn">
+          </li>
+  </ul>
+    </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="js/confirmation.js"></script>
+</body>
+</html>

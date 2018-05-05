@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link href="css/style.css" rel="stylesheet">
+<title>Shopping Cart Page</title>
+</head>
+<body>
+<h1>Your Shopping Cart</h1>
+    <a href = "javascript:history.back()" style="float:left; padding:10px; box-sizing: border-box;">Go Back</a>
+<form id="shopping-cart" action="shopping-cart.html" method="post">
+        <table class="shopping-cart">
+          <thead>
+            <tr>
+                <th scope="col">Item</th>
+                <th scope="col">Qty</th>
+            </tr>
+          </thead>
+          <tbody id = "shopping_cart_table"></tbody>
+        </table>
+        <ul id="shopping-cart-actions">
+				<li>
+					<input id = "backToMain" type = "button" value = "Back to Main Page" class="btn">
+				</li>
+				<li>
+					<a href="checkout.html" class="btn">Go To Checkout</a>
+				</li>
+        </ul>
+</form>
+
+
+
+<!-- include jQuery-->
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+   <!-- include our own JS file -->
+   <script src="js/shopping-cart.js"></script>
+   <script src="js/movie-list.js"></script>
+</body>
+</html>

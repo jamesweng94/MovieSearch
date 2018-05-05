@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title> Single Star Page </title>
+	
+	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body>
+    <h1>Single Star Info</h1>
+    <a href = "javascript:history.back()" style="float:left; padding:10px; box-sizing: border-box;">Go Back</a>
+    <form id = "goCheckout" style = "box-sizing: border-box; padding:20px; float: right" action = "shopping-cart.html">
+    	<input type = "button" value = "Check Out" class="btn">
+    </form>
+    	<table id=single_star_table class="table table-striped">
+	    <thead>
+	    <tr>
+	        <th>Name</th>
+	        <th>Year of Birth</th>
+            <th>Movies</th>
+            
+	    </tr>
+	    </thead>
+	    <tbody id=single_star_table_body></tbody>
+	</table>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+	<script src="js/single-star.js"></script>
+</body>
+</html>
