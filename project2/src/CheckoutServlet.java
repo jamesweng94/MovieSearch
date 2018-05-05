@@ -43,14 +43,18 @@ public class CheckoutServlet extends HttpServlet {
         	String query ="SELECT C.firstName, C.lastName, C.id, C.expiration\n" + 
  				   "FROM creditcards C\n" + 
  				   "WHERE C.firstName = '"+ firstName + "' AND C.lastName = '"+lastName + "' AND C.id = '" + creditId +"' AND C.expiration='" + creditDate + "';";
+        	
         	ResultSet resultSet = statement.executeQuery(query);
         		
         	if(resultSet.next()) {
         		System.out.println("Customer verfied success");
                 JsonObject responseJsonObject = new JsonObject();
                 responseJsonObject.addProperty("status", "success");
+                responseJsonObject.addProperty("first_name", firstName);
+                responseJsonObject.addProperty("last_name", lastName);
+                responseJsonObject.addProperty("credit_id", creditId);
                 responseJsonObject.addProperty("message", "success");
-
+                
                 response.getWriter().write(responseJsonObject.toString());       		
         	}else {
                 JsonObject responseJsonObject = new JsonObject();

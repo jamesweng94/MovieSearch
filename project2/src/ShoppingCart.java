@@ -35,7 +35,7 @@ public class ShoppingCart extends HttpServlet {
 		JsonArray jsonArray = new JsonArray();
 
         try {
-        	
+        	String movie_id = request.getParameter("movieID");
         	String todo = request.getParameter("todo");
         	String title = request.getParameter("title");
         	String new_qty = request.getParameter("qty");
@@ -47,24 +47,14 @@ public class ShoppingCart extends HttpServlet {
         			 newQty = 1;
         		 }
         	}
-        	
         	System.out.println("To-do: " + todo);
         	System.out.println("Movie Title: " + title);
         	System.out.println("New qty: " + newQty);
         	if(todo == null) { 
         		todo = "view";
         	}
-        /*	
-        	if (todo.equals("add") || todo.equals("update")) {	
-                if (todo.equals("add")) {
-                    user.addItem(title, 1);
-                 } else if (todo.equals("update")) {
-                    user.updateItem(title, newQty);
-                 }
-        	}
-        	*/
         	if (todo.equals("add")) {
-        		user.addItem(title, 1);
+        		user.addItem(movie_id,title, 1);
         	}
         	else if(todo.equals("update")) {
         		user.updateItem(title, newQty);
@@ -78,12 +68,23 @@ public class ShoppingCart extends HttpServlet {
     			jsonObject.addProperty("message", "Your shopping cart is empty");
     			jsonArray.add(jsonObject);
     			
-        	} else {
+        	} 
+        	else if(todo.equals("getId")) {
         		for(CartItem item : user.getCartItems()) {
+        			String movieID = item.getID();
+        			JsonObject jsonObject = new JsonObject();
+        			jsonObject.addProperty("movieID", movieID);
+        			jsonArray.add(jsonObject);
+        		}
+        	}
+        	else {
+        		for(CartItem item : user.getCartItems()) {
+        			String m_id = item.getID();
+        			System.out.println("m_id: " + m_id);
         			String m_title = item.getTitle();
-        			System.out.println("Movie title: " + m_title);
         			int m_qty = item.getQty();
         			JsonObject jsonObject = new JsonObject();
+        			jsonObject.addProperty("movieID", m_id);
         			jsonObject.addProperty("movie_title", m_title);
         			jsonObject.addProperty("movie_qty", m_qty);
 

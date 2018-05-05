@@ -22,19 +22,19 @@ public class User {
         return this.email;
     }
     
-    public void addItem(String title, int qtyOrdered) {
+    public void addItem(String movieID, String title, int qtyOrdered) {
         // Check if the id is already in the shopping cart
         Iterator<CartItem> iter = cart.iterator();
         while (iter.hasNext()) {
            CartItem item = iter.next();
-           if (item.getTitle().equals(title)) {
+           if (item.getID().equals(movieID)) {
               // id found, increase qtyOrdered
               item.setQty(item.getQty() + qtyOrdered);
               return;
            }
         }
         // id not found, create a new CartItem
-        cart.add(new CartItem(title, qtyOrdered));
+        cart.add(new CartItem(movieID, title, qtyOrdered));
      }
     
     public boolean updateItem(String title, int newQty) {

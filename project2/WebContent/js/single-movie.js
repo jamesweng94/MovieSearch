@@ -50,6 +50,7 @@ function handleResult(resultData) {
         rowHTML += "<th>" +
         "<div id = 'single_movie_input'>" + 
         "<form class = 'add-to-cart' action = 'shopping-cart.html' method = 'GET'>" +
+        "<input type = 'hidden' value = '"+ resultData[i]["movie_id"] + "' name = 'movieID'>" + 
         "<input type = 'hidden' value = '"+ resultData[i]["movie_title"] + "' name = 'title'>" + 
         "<input type = 'hidden' value = 'add' name = 'todo'>"+
         "<input type = 'submit' value = 'Add to cart' class='btn'></form></div>"

@@ -115,11 +115,22 @@
 				    </div>  
 				 </div>
 			</div>
-				 
-				<form class = "search-container" action = "movie-list.html" method = "GET">
-					<input type="text" placeholder="Search for movies..." name ="search" >
-					<button type="submit" value = "Search"> </button>
+			
+			<form id = "goCheckout" style = "box-sizing: border-box; margin-top: 15px; padding:20px; float: right" action = "shopping-cart.html">
+					<input type = "button" value = "Check Out" class="btn">
 				</form> 
+			<form id="search-form" class = "search-container" action = "movie-list.html" method = "GET">
+				<div class="search-box">
+					<input type="text" name ="search" placeholder="Search for movies..." >
+				</div>
+				<div class="search-checkbox">
+					<input type="checkbox" name="title"> <label for="checkbox">Title</label> 
+					<input type="checkbox" name="year"> <label for="checkbox">Year</label>
+					<input type="checkbox" name="director"> <label for="checkbox">Director</label>
+					<input type="checkbox" name="star"> <label for="checkbox">Star</label>
+				</div>
+				<button type="submit" value = "submit"> Search </button>
+			</form>
 			</div>
 		</div>
 
@@ -129,5 +140,10 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 		<!-- include our own JS file -->
 		<script src="js/movie-list.js"></script>
+		<script>
+			$("#goCheckout").click(function(){
+				window.location.replace("shopping-cart.html");
+		});
+			</script>
 	</body>
 </html>

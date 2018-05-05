@@ -1,8 +1,7 @@
 function handleCheckoutResult(resultDataString) {
     resultDataJson = JSON.parse(resultDataString);
-    console.log("printed?");
     if (resultDataJson["status"] === "success") {
-        window.location.replace("confirmation.html");
+        window.location.replace("confirmation.html?firstName=" + resultDataJson["first_name"]+"&lastName=" + resultDataJson["last_name"] + "&creditid="+resultDataJson["credit_id"]);
     }
     else {
         console.log("show error message");

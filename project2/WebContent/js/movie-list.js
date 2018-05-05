@@ -54,6 +54,7 @@ function handleListResult(resultData){
         rowHTML += "<th class = 'movie_info'>" +
         "<div id = 'single_movie_input'>" + 
         "<form id = 'add-to-cart' action = 'shopping-cart.html' method = 'GET'>" +
+        "<input type = 'hidden' value = '"+ resultData[i]["movie_id"] + "' name = 'movieID'>" + 
         "<input type = 'hidden' value = '"+ resultData[i]["movie_title"] + "' name = 'title'>" + 
         "<input type = 'hidden' value = 'add' name = 'todo'>"+
         "<input type = 'submit' value = 'Add to cart' class='btn'></form></div>"
@@ -106,21 +107,38 @@ $("#sort_rating").click(function(){
     sortTable(f_nm,n);
 });
 
+
+var urlParams;
+(window.onpopstate = function () {
+    var match,
+        pl     = /\+/g,  // Regex for replacing addition symbol with a space
+        search = /([^&=]+)=?([^&]*)/g,
+        decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+        query  = window.location.search.substring(1);
+
+    urlParams = {};
+    while (match = search.exec(query))
+       urlParams[decode(match[1])] = decode(match[2]);
+})();
+
 let action = getParameterByName('action');
 
 if (!action) {
-    jQuery.ajax({
-        dataType: "json", 
+	
+	jQuery.ajax({
+        dataType: "json",
+        method: "GET",
         url: "api/list",
         data: {action: "search",
-        		search: getParameterByName("search")},
-        type: "GET",
-        success: (resultData) => handleListResult(resultData),
-          
+        	   search: urlParams["search"],
+        	   title: urlParams["title"],
+        	   year: urlParams["year"],
+        	   director: urlParams["director"],
+               star: urlParams["star"]
+            },
+        success: (resultData) => handleListResult(resultData)      
     });
-    
 }
-
 else {
     jQuery.ajax({
         dataType: "json", 
@@ -128,7 +146,7 @@ else {
         url: "api/list",
         data: { action: "browse",
         		by: getParameterByName("by"),
-               value: getParameterByName("value") },
+                value: getParameterByName("value")},
         success: (resultData) => handleListResult(resultData) 
     });
     
@@ -164,18 +182,6 @@ $(document).ajaxComplete(function(){
             if ($(this).hasClass('active')) {
                 return false;
             } else {    
-                /*       
-                if (!($(this).hasClass('visited'))) {
-                    alert("page visited");
-                    $(this).addClass('visited');
-                    let header_row = "<th>ID</th><th id = 'sort_title'>Title</th><th>Year</th>" + 
-                    "<th>Director</th>" +
-                    "<th>Genres</th>" +
-                    "<th>Stars</th>" +
-                    "<th id = 'sort_rating'>Rating</th>";
-                    $('#movie_table').children('thead').append(header_row);
-                }
-                */
                 var currentPage = $(this).index(); 
                 $(".pagination li").removeClass('active'); 
                 $(this).addClass('active');

@@ -12,6 +12,7 @@ function handleResult(resultData) {
         rowHTML += "<th class = 'movie_info'>" + 
                     "<form class = 'update-item' method = 'GET'>" +
                     "<input id = 'qty_update' type = 'text' value = '"+ resultData[i]["movie_qty"] + "' name = 'qty'>" +
+                    "<input type = 'hidden' value = '"+ resultData[i]["movie_id"] + "' name = 'movieID'>" + 
                     "<input type = 'hidden' value = 'update' name = 'todo'>"+
                     "<input type = 'hidden' value = '"+  resultData[i]["movie_title"]+ "' name = 'title'>"+
                     "<input type = 'submit' value = 'Update' class='btn' style = 'text-align:center; margin-left: 20px; font-size:14px'>"+
@@ -21,6 +22,7 @@ function handleResult(resultData) {
         "<div id = 'remove'>" + 
         "<form class = 'remove-item' method = 'GET'>" +
         "<input type = 'hidden' value = '"+ resultData[i]["movie_title"] + "' name = 'title'>" + 
+        "<input type = 'hidden' value = '"+ resultData[i]["movie_id"] + "' name = 'movieID'>" + 
         "<input type = 'hidden' value = 'remove' name = 'todo'>"+
         "<input type = 'submit' value = 'Delete Item' class='btn'></form></div>"
             + "</th>";
@@ -97,6 +99,7 @@ $.ajax({
     dataType: "json",
     method: "POST", 
     data: {
+        movieID:urlParams["movieID"],
         qty: urlParams["qty"],
         todo: urlParams["todo"],
         title: urlParams["title"]

@@ -13,6 +13,7 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -81,20 +82,54 @@ public class MovieList extends HttpServlet {
 			}
 			
 			else {
+				String search = request.getParameter("search");
 				
-				String target = request.getParameter("search");
+				String[] params = new String[] {"title","year","director","star"};
+				ArrayList<String> search_by = new ArrayList<>();
+				
+				for (int i = 0; i < params.length; ++i) {
+					String param = request.getParameter(params[i]);
+					if (param != null) {
+						search_by.add(params[i]);
+					}		
+				}
+				
+
+				String query_limit = "WHERE ";
+				String query_from = "FROM movies M ";
+				
+				if (search_by.size() == 0) {
+					query_limit += "M.title LIKE '%" + search + "%' OR M.year LIKE '%" + search +
+									"%' OR M.director LIKE '%" + search + "%'\n" ;
+				}
+				
+				else {
+					for (int i = 0; i < search_by.size(); ++i) {
+						String p = search_by.get(i);
+						
+						if (p.equals("star")) {
+							if (search_by.size() == 1)
+								query_limit = "";
+							query_from = "FROM (SELECT M.id FROM stars_in_movies SM "+ "INNER JOIN stars S ON S.id = SM.starId "+
+										 		"AND S.name LIKE '%" + search + "%' " + "LEFT JOIN movies M ON M.id = SM.movieId) AS T \n" +
+										 "LEFT JOIN movies M ON M.id = T.id \n";
+						}
+						else
+							query_limit += "M." + p + " LIKE '%" + search + "%' ";
+						if ((search_by.size() > 1) && (i < search_by.size()-1) && search_by.get(i+1).equals("star") == false) 
+							query_limit += "AND ";
+					}
+				}
+				
 				query = "SELECT DISTINCT M.id, M.title, M.year, M.director, GROUP_CONCAT(DISTINCT G.name SEPARATOR ', ') AS genres, GROUP_CONCAT(DISTINCT S.name SEPARATOR ', ') AS stars, R.rating \n" + 
-	            		"FROM movies M \n" + 
+	            		query_from + 
 	            		"LEFT JOIN stars_in_movies SM ON M.id = SM.movieId \n" + 
 	            		"LEFT JOIN stars S ON SM.starId = S.id\n" + 
 	            		"LEFT JOIN genres_in_movies RM ON M.id = RM.movieId \n" + 
 	            		"LEFT JOIN genres G ON RM.genreId = G.id\n" + 
-	            		"LEFT JOIN ratings R ON M.id = R. movieId \n" + 
-	            		"WHERE M.title LIKE '%" + target + "%' OR\n" + 
-	            		"M.year LIKE '%" + target + "%' OR\n" +
-	            		"M.director LIKE '%" + target + "%'\n" + 
-	            		"GROUP BY M.id, M.title, M.year, M.director, R.rating;";
-				
+	            		"LEFT JOIN ratings R ON M.id = R.movieId \n" + 
+	            		query_limit +
+	            		"GROUP BY M.id, M.title, M.year, M.director, R.rating;";				
 			}
             // Perform the query
             ResultSet rs = statement.executeQuery(query);
