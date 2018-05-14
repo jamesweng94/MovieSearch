@@ -5,19 +5,12 @@
 function handleLoginResult(resultDataString) {
     resultDataJson = JSON.parse(resultDataString);
 
-    console.log("handle login response");
-    console.log(resultDataJson);
-    console.log(resultDataJson["status"]);
-
     // If login success, redirect to index.html page
     if (resultDataJson["status"] === "success") {
         window.location.replace("index.html");
     }
     // If login fail, display error message on <div> with id "login_error_message"
     else {
-        console.log("show error message");
-        console.log(resultDataJson["message"]);
-       // jQuery("#login_error_message").text(resultDataJson["message"]);
         alert(resultDataJson["message"]);
         
     }
@@ -29,8 +22,7 @@ function handleLoginResult(resultDataString) {
  * @param formSubmitEvent
  */
 function submitLoginForm(formSubmitEvent) {
-    console.log("submit login form");
-
+	
     // Important: disable the default action of submitting the form
     //   which will cause the page to refresh
     //   see jQuery reference for details: https://api.jquery.com/submit/
