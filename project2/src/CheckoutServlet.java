@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.PreparedStatement;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -38,13 +39,19 @@ public class CheckoutServlet extends HttpServlet {
         
         try {
         	Connection dbcon = dataSource.getConnection();
-        	Statement statement = dbcon.createStatement();
+        	//Statement statement = dbcon.createStatement();
         	
         	String query ="SELECT C.firstName, C.lastName, C.id, C.expiration\n" + 
  				   "FROM creditcards C\n" + 
- 				   "WHERE C.firstName = '"+ firstName + "' AND C.lastName = '"+lastName + "' AND C.id = '" + creditId +"' AND C.expiration='" + creditDate + "';";
+ 				   "WHERE C.firstName = ? AND C.lastName = ? AND C.id = ? AND C.expiration= ? ;";
         	
-        	ResultSet resultSet = statement.executeQuery(query);
+        	PreparedStatement preparedStatement = dbcon.prepareStatement(query);
+        	preparedStatement.setString(1, firstName);
+        	preparedStatement.setString(2, lastName);
+        	preparedStatement.setString(3, creditId);
+        	preparedStatement.setString(4, creditDate);
+        	
+        	ResultSet resultSet = preparedStatement.executeQuery();
         		
         	if(resultSet.next()) {
         		System.out.println("Customer verfied success");
@@ -65,7 +72,6 @@ public class CheckoutServlet extends HttpServlet {
             }
         	
         	resultSet.close();
-            statement.close();
             dbcon.close();	
             
         }        

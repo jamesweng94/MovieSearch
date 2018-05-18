@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
+import java.sql.PreparedStatement;
 
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
@@ -54,18 +55,22 @@ public class LoginServlet extends HttpServlet {
                 
         try {   	
         	Connection dbcon = dataSource.getConnection();
-        	Statement statement = dbcon.createStatement();
         	
-        	/*
+        	/*Statement statement = dbcon.createStatement();
         	String query ="SELECT C.email, C.password\n" + 
         				   "FROM customers C\n" + 
         				  "WHERE C.email = " + "'"+ email + "'"+ " and C.password = " + "'"+password + "';";
-        				  */
-        	
+
     		String query = String.format("SELECT * from customers where email='%s'", email);
-        	ResultSet resultSet = statement.executeQuery(query);
+        	ResultSet resultSet = statement.executeQuery(query); */
+        	
+        	String query = "SELECT * from customers WHERE email = ? ;";
+        	PreparedStatement preparedStatement = dbcon.prepareStatement(query);
+        	preparedStatement.setString(1, email);
+        	ResultSet resultSet = preparedStatement.executeQuery();
         	
     		boolean success = false;
+    		
         	if(resultSet.next()) {
         		
     			String encryptedPassword = resultSet.getString("password");

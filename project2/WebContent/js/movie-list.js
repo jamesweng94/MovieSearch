@@ -130,7 +130,6 @@ if (!action) {
         method: "GET",
         url: "api/list",
         data: {action: "search",
-        	   search: urlParams["search"],
         	   title: urlParams["title"],
         	   year: urlParams["year"],
         	   director: urlParams["director"],

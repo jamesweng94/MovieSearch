@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<style>
+body {
+    font-family: "Lato", sans-serif;
+}
+
+.sidebar {
+    height: 100%;
+    width: 160px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+
+.sidebar a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+}
+
+.sidebar a:hover {
+    color: #f1f1f1;
+}
+
+.mainbar {
+    margin-left: 160px; 
+    font-size: 28px; 
+    padding: 0px 10px;
+}
+
+@media screen and (max-height: 450px) {
+    .sidebar {padding-top: 15px;}
+    .sidebar a {font-size: 18px;}
+}
+
+.insert-form {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 40px;
+	margin-top: 10px;
+}
+
+.insert-form input[type=text] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.insert-form input[type = "submit"]{
+	border:none;
+	outline:none;
+	height:40px;
+	background: #A52A2A;
+	color:white;
+	font-size:18px;
+	border-radius: 20px;
+	cursor:pointer;
+	width: 50%;
+	margin-left: 25%;
+	margin-top: 2%;
+}
+</style>
+
+
+<body>
+	<div class="sidebar">
+		<a href="welcome-dashboard.html"> Welcome </a>
+		<a href="metadata-dashboard.html"> Metadata </a>
+		<a href="stars-dashboard.html"> Add Stars </a>
+		<a href="movies-dashboard.html"> Add Movies </a>
+	</div>
+	<div class="mainbar">
+		<div class="insert-form">
+			<form id="insert-form">
+			    <label for="sname">Star Name</label>
+			    <label for="sname" style="color: red"> * </label>
+			    <input type="text" id="sname" name="starname" placeholder="Star name...">
+			    <label for="birthyr">Birth Year</label>
+			    <input type="text" id="birthyr" name="birthyear" placeholder="Star's birth year...">
+			    <input type="submit" value="Insert New Star">
+	  		</form>
+  		</div>
+	</div>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+	<script src="js/stars-dashboard.js"></script>
+	
+</body>
+
+
+
+</html>

@@ -1,5 +1,4 @@
 
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -13,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
+import java.sql.PreparedStatement;
 
 import com.google.gson.JsonObject;
 
@@ -44,22 +44,33 @@ public class SalesServlet extends HttpServlet {
 		
 		try {
         	Connection dbcon = dataSource.getConnection();
-        	Statement statement = dbcon.createStatement();
+        	//Statement statement = dbcon.createStatement();
         	if(todo == null) {
-	        	String query = "INSERT INTO sales(customerID, movieId, saleDate)VALUES(\n" + 
+	        	String query = "INSERT INTO sales(customerID, movieId, saleDate) VALUES(\n" + 
 	        					"(SELECT  C.id\n" + 
 	        					"FROM customers C \n" + 
-	        					"WHERE C.firstName = '"+ first_name+"' AND C.lastName = '"+ last_name +"' AND C.ccId = '"+ credit_id +"'), '"+ movieID +"',(SELECT CURDATE() AS date));";
-	        	statement.executeUpdate(query);
+	        					"WHERE C.firstName = ? AND C.lastName = ? AND C.ccId = ?), ? ,(SELECT CURDATE() AS date));";
+	        	
+	        	PreparedStatement preparedStatement = dbcon.prepareStatement(query);
+	        	
+	        	preparedStatement.setString(1, first_name);
+	        	preparedStatement.setString(2, last_name);
+	        	preparedStatement.setString(3, credit_id);
+	        	preparedStatement.setString(4, movieID);
+	        	
+	        	preparedStatement.executeUpdate(query);
         	}
         	else {
         		System.out.println("Inside of else todo: " + todo);
                 JsonObject jsonObject = new JsonObject();
         		String findSales = "SELECT S.id\n" + 
-        				"FROM sales S\n" + 
-        				"WHERE movieID = '"+ movieID +"';";
+        							"FROM sales S\n" + 
+        							"WHERE movieID = ? ;";
         		
-        		ResultSet rs = statement.executeQuery(findSales);
+        		PreparedStatement preparedStatement = dbcon.prepareStatement(findSales);
+        		preparedStatement.setString(1, movieID);
+        		ResultSet rs = preparedStatement.executeQuery();
+        		
         		if (rs.next()) {
         			String id = rs.getString("id");
         			System.out.println("Inside sale servlet ID: " + id);
@@ -67,9 +78,8 @@ public class SalesServlet extends HttpServlet {
         		}
         		response.getWriter().write(jsonObject.toString()); 
         	}
-        	out.close();
         	
-            statement.close();
+        	out.close();
             dbcon.close();		
 		}
 		catch (Exception e) {
@@ -78,7 +88,7 @@ public class SalesServlet extends HttpServlet {
 			jsonObject.addProperty("errorMessage", e.getMessage());
 			out.write(jsonObject.toString());
 
-			// set reponse status to 500 (Internal Server Error)
+			// set response status to 500 (Internal Server Error)
 			response.setStatus(500);
 		}
 		out.close();

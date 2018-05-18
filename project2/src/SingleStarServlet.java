@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
+import java.sql.PreparedStatement;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -33,17 +34,19 @@ public class SingleStarServlet extends HttpServlet {
 		
 		try { 
 			Connection dbcon = dataSource.getConnection();
-			Statement statement = dbcon.createStatement();
+			//Statement statement = dbcon.createStatement();
 			JsonArray jsonArray = new JsonArray();
 			
 			String query = "SELECT T.name, T.birthYear, GROUP_CONCAT(DISTINCT M.title SEPARATOR', ') AS movies\n" +
-							"FROM (SELECT * FROM stars S WHERE S.name = '" + name + "') AS T\n" +
+							"FROM (SELECT * FROM stars S WHERE S.name = ? ) AS T\n" +
 							"LEFT JOIN stars_in_movies SM ON SM.starId = T.id\n" +
 							"LEFT JOIN movies M ON M.id = SM.movieId\n" +
 							"GROUP BY T.name, T.birthYear;\n";
 		
 			
-			ResultSet rs = statement.executeQuery(query);
+			PreparedStatement preparedStatement = dbcon.prepareStatement(query);
+			preparedStatement.setString(1, name);
+			ResultSet rs = preparedStatement.executeQuery();
 			
 			
 			while (rs.next()) {

@@ -44,8 +44,7 @@ public class SingleMovieServlet extends HttpServlet {
 		try {
 			 Connection dbcon = dataSource.getConnection();
 
-	            // Declare our statement
-	            Statement statement = dbcon.createStatement();
+	            //Statement statement = dbcon.createStatement();
 
 	            String query = "SELECT DISTINCT M.id, M.title, M.year, M.director, GROUP_CONCAT(DISTINCT G.name SEPARATOR ', ') AS genres , GROUP_CONCAT(DISTINCT S.name SEPARATOR ', ') AS stars, R.rating \n" + 
 	            		"FROM movies M \n" + 
@@ -54,13 +53,13 @@ public class SingleMovieServlet extends HttpServlet {
 	            		"LEFT JOIN genres_in_movies RM ON M.id = RM.movieId \n" + 
 	            		"LEFT JOIN genres G ON RM.genreId = G.id\n" + 
 	            		"LEFT JOIN ratings R ON M.id = R. movieId \n" + 
-	            		"WHERE  M.title = '" + name + "' \n" +  
+	            		"WHERE  M.title = ? \n" +  
 	            		"GROUP BY M.id, M.title, M.year, M.director, R.rating;";
 
-	            
-	          
-	            // Perform the query
-	            ResultSet rs = statement.executeQuery(query);
+
+	            PreparedStatement preparedStatement = dbcon.prepareStatement(query);
+	            preparedStatement.setString(1, name);
+	            ResultSet rs = preparedStatement.executeQuery();
 
 	            JsonArray jsonArray = new JsonArray();
 
@@ -107,7 +106,6 @@ public class SingleMovieServlet extends HttpServlet {
 	            response.setStatus(200);
 
 	            rs.close();
-	            statement.close();
 	            dbcon.close();			
 			
 
