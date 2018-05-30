@@ -1,6 +1,0 @@
-We have SAX parser to do the parsing of these xml files.
-Performance Tuning
-1. I parsed the xml files into csv files and updated the database using MySQL load data infile to speed up the process of insertion.
-2. I have implemented searching using HashMap in the different parser to speed up the look up process while the program is parsing the xml files.
-
-After populated the data given from Prof, it took around 10 seconds for me to do my updates.
