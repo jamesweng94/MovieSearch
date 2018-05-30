@@ -54,6 +54,9 @@ public class MovieList extends HttpServlet {
 				String browseby = request.getParameter("by");
 				String value = request.getParameter("value");
 				
+				System.out.println("Browse By: " + browseby );
+				System.out.println("Value: " + value );
+				
 				if (browseby.equals("genre")) {
 					
 					query = "SELECT M.id, M.title, M.year, M.director, GROUP_CONCAT(DISTINCT G.name SEPARATOR ', ') AS genres, GROUP_CONCAT(DISTINCT S.name SEPARATOR', ') AS stars, R.rating "+
@@ -67,6 +70,7 @@ public class MovieList extends HttpServlet {
 							"GROUP BY M.id, M.title, M.year, M.director, R.rating LIMIT 500;"; 
 					preparedStatement = dbcon.prepareStatement(query);
 					preparedStatement.setString(1, value);
+
 				}
 
 				else {
@@ -79,9 +83,10 @@ public class MovieList extends HttpServlet {
 							"LEFT JOIN genres_in_movies GM ON GM.movieId = T.id " +
 							"LEFT JOIN genres G ON G.id = GM.genreId " +
 							"LEFT JOIN ratings R ON R.movieId = M.id " +
-							"GROUP BY M.id, M.title, M.year, M.director, R.rating LIMIT 500";
+							"GROUP BY M.id, M.title, M.year, M.director, R.rating LIMIT 500;";
 					preparedStatement = dbcon.prepareStatement(query);
 					preparedStatement.setString(1, value + "%");
+
 				}
 			}
 			
@@ -117,6 +122,7 @@ public class MovieList extends HttpServlet {
 			}
            
             ResultSet rs = preparedStatement.executeQuery();
+  
 
             while (rs.next()) {
 				String movieId = rs.getString("id");
@@ -127,19 +133,32 @@ public class MovieList extends HttpServlet {
     			String movieStars = rs.getString("stars");
     			String movieRating = rs.getString("rating");
     			
-    			String [] stars = movieStars.split(", ");
-    			String [] genres_tokens = movieGenres.split(", ");
+    			
+    			String [] stars = null;
+    			if (movieStars != null)
+    				stars = movieStars.split(", ");
+    			
+    			String [] genres_tokens = null;
+    			if (movieGenres != null)
+    				genres_tokens = movieGenres.split(", ");
+    			
     			
     			JsonArray star_array = new JsonArray();
     			JsonArray generes_array = new JsonArray();
     			
-    			for (int i = 0; i < stars.length; ++i) {
-    			        star_array.add(stars[i]);
+    			
+    			if (stars != null) {
+	    			for (int i = 0; i < stars.length; ++i) {
+	    			        star_array.add(stars[i]);
+	    			}
     			}
-    			for (int i = 0; i < genres_tokens.length; ++i) {
-    				generes_array.add(genres_tokens[i]);
+    			
+    			if (genres_tokens != null) {
+	    			for (int i = 0; i < genres_tokens.length; ++i) {
+	    				generes_array.add(genres_tokens[i]);
+	    			}
     			}
-           
+    			
                 JsonObject jsonObject = new JsonObject();
 				jsonObject.addProperty("movie_id", movieId);
 				jsonObject.addProperty("movie_title", movieTitle);
@@ -150,6 +169,7 @@ public class MovieList extends HttpServlet {
 				jsonObject.addProperty("movie_rating", movieRating);
 
                 jsonArray.add(jsonObject);
+
             }
 
             out.write(jsonArray.toString());
@@ -158,6 +178,7 @@ public class MovieList extends HttpServlet {
             rs.close();
             statement.close();
             dbcon.close();
+
             
         } catch (Exception e) {
 
