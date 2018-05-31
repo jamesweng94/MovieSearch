@@ -6,7 +6,7 @@
 		<meta http-equiv="X-UA-Compatible" content="ie-edge">
 		<title>Fabflix</title>
 		<link href="css/index.css" rel="stylesheet">
-		
+
 	</head>
 	<body>
 		<slider>
@@ -141,29 +141,40 @@
 			</div>
 			
 			
-			<div id="search-container">
+			<!-- <div id="search-container">
 				<form id="search-form" action="movie-list.html" method="GET">
 					<div class="search-boxes">
-						<input type="title" name ="title" placeholder=" Title" >
-						<input type="year" name ="year" placeholder=" Year" >
-						<input type="director" name ="director" placeholder=" Director" >
-						<input type="star" name ="star" placeholder=" Star" >
+						<input type="title" name ="title" placeholder=" Search for title..." >
 					</div>
 					<br>
 					<input type="submit" value="Search for Movies">
 				</form>
 			</div>	
-		</div>
+		</div> -->
+
+		<div id="search-container" class="autocomplete-suggestions">
+			<form id="search-form" action="movie-list.html" method="GET">
+				<div class="search-boxes" class="autocomplete-suggestion autocomplete-selected">
+					<input type="title" id="autocomplete" name ="title" placeholder=" Search for title..." class="autocomplete-suggestion" >
+				</div>
+				<br>
+				<input type="submit" value="Search for Movies">
+			</form>
+		</div>	
+	</div>
 
 		<!-- include jQuery-->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.devbridge-autocomplete/1.4.7/jquery.autocomplete.min.js"></script>
+
 		<!-- include our own JS file -->
 		<script src="js/movie-list.js"></script>
 		<script>
 			$("#goCheckout").click(function(){ window.location.replace("shopping-cart.html");});
 		</script>
 		<script src="js/employee-login.js"></script>
+		<script src="js/index.js"></script>
 	</body>
 </html>

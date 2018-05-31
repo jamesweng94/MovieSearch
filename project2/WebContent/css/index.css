@@ -276,11 +276,11 @@ body {
 
 
 .search-boxes input {
-	width: 22%;
-	height: 32%;
+	width: 80%;
+	height: 30px;
 	font-size: 13px;
 	margin-top: 30px;
-	margin-left: 14px;
+	margin-left: 90px;
 }
 
 
@@ -343,3 +343,8 @@ slide:nth-child(4) {
 	100% { left: 100%; width: 0%; }
 	
 }
+
+.autocomplete-suggestions {background: #FFF; overflow: auto; }
+.autocomplete-selected { background:#6495ED; }
+.autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
+

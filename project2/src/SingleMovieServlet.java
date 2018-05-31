@@ -73,18 +73,30 @@ public class SingleMovieServlet extends HttpServlet {
 	    			String movieStars = rs.getString("stars");
 	    			String movieRating = rs.getString("rating");
 
-	    			String [] stars = movieStars.split(", ");
-	    			String [] genres_tokens = movieGenres.split(", ");
 
+	    			String [] stars = null;
+	    			if (movieStars != null)
+	    				stars = movieStars.split(", ");
+	    			
+	    			String [] genres_tokens = null;
+	    			if (movieGenres != null)
+	    				genres_tokens = movieGenres.split(", ");
+	    			
+	    			
 	    			JsonArray star_array = new JsonArray();
 	    			JsonArray generes_array = new JsonArray();
-
-	    			for (int i = 0; i < stars.length; ++i) {
-	    			        star_array.add(stars[i]);
+	    			
+	    			
+	    			if (stars != null) {
+		    			for (int i = 0; i < stars.length; ++i) {
+		    			        star_array.add(stars[i]);
+		    			}
 	    			}
 	    			
-	    			for (int i = 0; i < genres_tokens.length; ++i) {
-	    				generes_array.add(genres_tokens[i]);
+	    			if (genres_tokens != null) {
+		    			for (int i = 0; i < genres_tokens.length; ++i) {
+		    				generes_array.add(genres_tokens[i]);
+		    			}
 	    			}
 	    			
 	                // Create a JsonObject based on the data we retrieve from rs

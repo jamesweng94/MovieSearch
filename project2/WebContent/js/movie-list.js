@@ -131,9 +131,6 @@ if (!action) {
         url: "api/list",
         data: {action: "search",
         	   title: urlParams["title"],
-        	   year: urlParams["year"],
-        	   director: urlParams["director"],
-               star: urlParams["star"],
                page: "1",
                limit: "10"},
         success: (resultData) => handleListResult(resultData)      

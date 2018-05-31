@@ -95,30 +95,36 @@ public class MovieList extends HttpServlet {
 			else {
 
 				String title = request.getParameter("title");
-				String year = request.getParameter("year");
-				String director = request.getParameter("director");
-				String star = request.getParameter("star");
+				//System.out.println("Title query: " + title);
 				
+				if(title == null) {
+					return;
+				}
 				
-				query = "SELECT DISTINCT M.id, M.title, M.year, M.director, GROUP_CONCAT(DISTINCT G.name SEPARATOR ', ') AS genres, GROUP_CONCAT(DISTINCT S.name SEPARATOR ', ') AS stars, R.rating\n" + 
-						"FROM (	SELECT M.id\n" + 
-						" 	FROM stars_in_movies SM \n" + 
-						"	INNER JOIN stars S ON S.id = SM.starId AND S.name LIKE ?\n" + 
-						"	LEFT JOIN movies M ON M.id = SM.movieId ) AS T \n" + 
-						"LEFT JOIN movies M ON M.id = T.id\n" + 
+				String[] title_token = null;
+				if(title!=null) {
+					title_token = title.split("\\s+");
+				}
+								
+				String where = "";
+				for(int i = 0; i < title_token.length; ++i) {
+					where += "+" + title_token[i] + "* ";
+				}
+				where = where.trim();
+				//System.out.println("where statement: " + where);
+				
+				query = "SELECT M.id, M.title, M.year, M.director, GROUP_CONCAT(DISTINCT G.name SEPARATOR ', ') AS genres , GROUP_CONCAT(DISTINCT S.name SEPARATOR ', ') AS stars, R.rating\n" + 
+						"FROM movies M\n" +
 						"LEFT JOIN stars_in_movies SM ON M.id = SM.movieId\n" + 
-						"LEFT JOIN stars S ON SM.starId = S.id\n" + 
-						"LEFT JOIN genres_in_movies GM ON M.id = GM.movieId\n" + 
-						"LEFT JOIN genres G ON GM.genreId = G.id\n" + 
-						"LEFT JOIN ratings R ON M.id = R.movieId\n" + 
-						"WHERE M.title LIKE ? AND M.year LIKE ? AND M.director LIKE ?\n" + 
+						"LEFT JOIN stars S ON SM.starId = S.id\n" +
+						"LEFT JOIN genres_in_movies RM ON M.id = RM.movieId\n" +
+						"LEFT JOIN genres G ON RM.genreId = G.id \n" +
+						"LEFT JOIN ratings R ON M.id = R. movieId \n" +
+						"WHERE MATCH (M.title) AGAINST( ? IN BOOLEAN MODE) \n" +
 						"GROUP BY M.id, M.title, M.year, M.director, R.rating LIMIT 500;\n";
 				
 				preparedStatement = dbcon.prepareStatement(query);
-				preparedStatement.setString(1, "%" + star + "%");
-				preparedStatement.setString(2, "%" + title + "%");
-				preparedStatement.setString(3, "%" + year + "%");
-				preparedStatement.setString(4, "%" + director + "%");
+				preparedStatement.setString(1, where);;
 			}
            
             ResultSet rs = preparedStatement.executeQuery();

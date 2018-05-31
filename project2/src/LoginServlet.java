@@ -39,6 +39,7 @@ public class LoginServlet extends HttpServlet {
         System.out.println("gRecaptchaResponse=" + gRecaptchaResponse);
         PrintWriter out = response.getWriter();
 
+        /*
         // Verify reCAPTCHA
         try {
             RecaptchaVerifyUtils.verify(gRecaptchaResponse);
@@ -50,19 +51,11 @@ public class LoginServlet extends HttpServlet {
             response.getWriter().write(responseJsonObject.toString());
             return;
         }
-        
+        */
         //response.setContentType("application/json");
                 
         try {   	
         	Connection dbcon = dataSource.getConnection();
-        	
-        	/*Statement statement = dbcon.createStatement();
-        	String query ="SELECT C.email, C.password\n" + 
-        				   "FROM customers C\n" + 
-        				  "WHERE C.email = " + "'"+ email + "'"+ " and C.password = " + "'"+password + "';";
-
-    		String query = String.format("SELECT * from customers where email='%s'", email);
-        	ResultSet resultSet = statement.executeQuery(query); */
         	
         	String query = "SELECT * from customers WHERE email = ? ;";
         	PreparedStatement preparedStatement = dbcon.prepareStatement(query);
