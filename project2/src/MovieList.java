@@ -93,7 +93,6 @@ public class MovieList extends HttpServlet {
 			
 			// SEARCHING
 			else {
-
 				String title = request.getParameter("title");
 				//System.out.println("Title query: " + title);
 				
@@ -124,7 +123,7 @@ public class MovieList extends HttpServlet {
 						"GROUP BY M.id, M.title, M.year, M.director, R.rating LIMIT 500;\n";
 				
 				preparedStatement = dbcon.prepareStatement(query);
-				preparedStatement.setString(1, where);;
+				preparedStatement.setString(1, where);
 			}
            
             ResultSet rs = preparedStatement.executeQuery();
