@@ -6,4 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".MovieListActivity">
 
+    <ListView
+        android:id="@+id/movieList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </android.support.constraint.ConstraintLayout>

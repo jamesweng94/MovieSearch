@@ -22,15 +22,16 @@ public class MovieListAndroid extends HttpServlet {
     @Resource(name = "jdbc/moviedb")
     private DataSource dataSource;
     
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         response.setContentType("application/json"); 		
-        String title = (String) request.getSession().getAttribute("title");
+        String title = request.getParameter("title");
+        System.out.println("TITLE: "+ title);
         
         try {
         	Connection dbcon = dataSource.getConnection();
         	
-        	/*if (title == null)
+        	if (title == null)
         		return;
         	
         	String[] titleTokens = null;
@@ -54,12 +55,62 @@ public class MovieListAndroid extends HttpServlet {
         	
         	PreparedStatement preparedStatement = dbcon.prepareStatement(query);
         	preparedStatement.setString(1, where);
-        	ResultSet rs = preparedStatement.executeQuery();*/
+        	ResultSet rs = preparedStatement.executeQuery();
         	
-        	JsonObject responseJsonObject = new JsonObject();
-            responseJsonObject.addProperty("status", "success");
-            responseJsonObject.addProperty("message", "success from android list");
-            response.getWriter().write(responseJsonObject.toString());
+        	JsonArray jsonArray = new JsonArray();
+        	
+        	while (rs.next()) {
+        		String movieId = rs.getString("id");
+    			String movieTitle = rs.getString("title");
+    			String movieYear = rs.getString("year");
+    			String movieDirector = rs.getString("director");
+    			String movieGenres = rs.getString("genres");
+    			String movieStars = rs.getString("stars");
+    			String movieRating = rs.getString("rating");
+    			
+    			
+    			String [] stars = null;
+    			if (movieStars != null)
+    				stars = movieStars.split(", ");
+    			
+    			String [] genres_tokens = null;
+    			if (movieGenres != null)
+    				genres_tokens = movieGenres.split(", ");
+    			
+    			
+    			JsonArray star_array = new JsonArray();
+    			JsonArray generes_array = new JsonArray();
+    			
+    			
+    			if (stars != null) {
+	    			for (int i = 0; i < stars.length; ++i) {
+	    			        star_array.add(stars[i]);
+	    			}
+    			}
+    			
+    			if (genres_tokens != null) {
+	    			for (int i = 0; i < genres_tokens.length; ++i) {
+	    				generes_array.add(genres_tokens[i]);
+	    			}
+    			}
+    			
+                JsonObject jsonObject = new JsonObject();
+				jsonObject.addProperty("movie_id", movieId);
+				jsonObject.addProperty("movie_title", movieTitle);
+				jsonObject.addProperty("movie_year", movieYear);
+				jsonObject.addProperty("movie_dir", movieDirector);
+				jsonObject.add("movie_genres", generes_array);
+				jsonObject.add("movie_star", star_array);
+				jsonObject.addProperty("movie_rating", movieRating);
+
+                jsonArray.add(jsonObject);
+        	}
+        	
+        	//JsonObject responseJsonObject = new JsonObject();
+            //responseJsonObject.addProperty("status", "success");
+            //responseJsonObject.addProperty("message", "success from android list");
+            response.getWriter().write(jsonArray.toString());
+            response.setStatus(200);
             
         } catch (Exception e) {
         	JsonObject jsonObject = new JsonObject();

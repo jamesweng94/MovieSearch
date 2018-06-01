@@ -13,6 +13,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -38,14 +39,15 @@ public class SearchActivity extends AppCompatActivity {
 
         final RequestQueue queue = NetworkManager.sharedManager(this).queue;
 
-        final StringRequest searchRequest = new StringRequest(Request.Method.GET, "http://10.0.3.2:8080/project2/api/android-list",
+        final StringRequest searchRequest = new StringRequest(Request.Method.POST, "http://10.0.3.2:8080/project2/api/android-list",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         Log.d("response", response);
                         try {
-                            JSONObject json = new JSONObject(response);
+                            JSONArray jsonArray = new JSONArray(response);
                             Intent intent = new Intent(SearchActivity.this, MovieListActivity.class);
+                            intent.putExtra("jsonArray",jsonArray.toString());
                             startActivity(intent);
 
                         }
