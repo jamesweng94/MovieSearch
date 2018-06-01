@@ -31,7 +31,6 @@ function handleResult(resultData) {
         var j = 0;
         var generes_row = "";
         while(resultData[i]["movie_genres"][j] !== undefined){
-            console.log("generes to find: " + resultData[i]["movie_genres"][j]);
             var temp = '<a href="movie-list.html?action=browse&by=genre&value=' + resultData[i]["movie_genres"][j] + '">' + resultData[i]["movie_genres"][j] +'</a>';
             generes_row += temp + " ";
             j++;

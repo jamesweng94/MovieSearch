@@ -1,6 +1,7 @@
 
 function handleLookup(title, doneCallback) {
-
+    
+    console.log("autocomplete initiated")
     if(sessionStorage.getItem(title) == null){
         console.log("New query(not in cache): " + title)
         $.ajax({
@@ -16,7 +17,15 @@ function handleLookup(title, doneCallback) {
         })
     }
     else{
-        doneCallback({suggestions: JSON.parse(sessionStorage.getItem(title))})
+        var consoleOut = [];
+        var sessionJsonData = JSON.parse(sessionStorage.getItem(title));
+
+        sessionJsonData.forEach(function(item){
+            consoleOut.push(item["value"]);
+        })
+        console.log("Movie List in the cache")
+        console.log(consoleOut);
+        doneCallback({suggestions: sessionJsonData})
     }
 }
 
@@ -26,10 +35,14 @@ function handleSelectSuggestion(suggestion) {
 }
 
 function handleLookupAjaxSuccess(data, title, doneCallback) {
-    console.log("lookup ajax successful")
+    var consoleOutput = [];    
+    var jsonData = JSON.parse(data);
     
-	var jsonData = JSON.parse(data);
-    console.log(jsonData)
+    jsonData.forEach(function(item){
+        consoleOutput.push(item["value"]);
+    })
+    
+    console.log(consoleOutput)
     sessionStorage.setItem(title, JSON.stringify(jsonData));
 	doneCallback( { suggestions: jsonData} );
 }
