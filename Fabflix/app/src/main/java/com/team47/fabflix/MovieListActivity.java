@@ -98,7 +98,6 @@ public class MovieListActivity extends AppCompatActivity {
             previous.setEnabled(false);
         }
         else if(currentPage == lastPage){
-            Log.d("CURRENT PAGE: " , currentPage+"");
             next.setEnabled(false);
             previous.setEnabled(true);
         }
