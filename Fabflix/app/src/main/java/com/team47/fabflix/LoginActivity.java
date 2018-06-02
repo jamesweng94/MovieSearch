@@ -48,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
         final RequestQueue queue = NetworkManager.sharedManager(this).queue;
 
 
-        final StringRequest loginRequest = new StringRequest(Request.Method.POST, "http://10.0.3.2:8080/project2/api/login",
+        final StringRequest loginRequest = new StringRequest(Request.Method.POST, "https://13.58.209.21:8443/project2/api/login",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
