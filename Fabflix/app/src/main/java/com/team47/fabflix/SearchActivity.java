@@ -39,7 +39,7 @@ public class SearchActivity extends AppCompatActivity {
 
         final RequestQueue queue = NetworkManager.sharedManager(this).queue;
 
-        final StringRequest searchRequest = new StringRequest(Request.Method.POST, "http://10.0.3.2:8080/project2/api/android-list",
+        final StringRequest searchRequest = new StringRequest(Request.Method.POST, "https://10.0.2.2:8443/project2/api/android-list",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
