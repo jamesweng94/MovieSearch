@@ -3,6 +3,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import javax.annotation.Resource;
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -47,7 +49,19 @@ public class InsertMovieServlet extends HttpServlet {
 			
 			if ((title != "") && (year != "") && (director != "") && (star != "") && (genre != ""))
 			{
+				Context initCtx = new InitialContext();
+
+	            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+	            if (envCtx == null)
+	                out.println("envCtx is NULL");
+
+	            dataSource = (DataSource) envCtx.lookup("jdbc/TestDB");
+	            
 				Connection dbcon = dataSource.getConnection();
+				
+				if (dbcon == null)
+	                out.println("dbcon is null.");
+				
 				Integer new_year = Integer.parseInt(year);
 				
 				// Check if movie already exists 

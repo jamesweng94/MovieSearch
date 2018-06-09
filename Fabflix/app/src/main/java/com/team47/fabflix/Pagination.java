@@ -19,7 +19,7 @@ public class Pagination {
         ArrayList<Movie> newPageData = new ArrayList<>();
         if(currentPage == lastPage){
             //collecting data seperately for the last page
-            for(int count = 0; count < itemsPerPage; ++count){
+            for(int count = 0; count < lastPageItem; ++count){
                 newPageData.add(movieList.get(startItem+count));
             }
         }else{

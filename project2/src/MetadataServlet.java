@@ -2,6 +2,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import javax.annotation.Resource;
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,7 +33,18 @@ public class MetadataServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		
 		try {
-			 	Connection dbcon = dataSource.getConnection();
+				Context initCtx = new InitialContext();
+	
+	            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+	            if (envCtx == null)
+	                out.println("envCtx is NULL");
+	
+	            dataSource = (DataSource) envCtx.lookup("jdbc/TestDB");
+	            
+				Connection dbcon = dataSource.getConnection();
+				
+				if (dbcon == null)
+	                out.println("dbcon is null.");
 			 
 			 	String query_tables = "SELECT table_name FROM information_schema.tables WHERE table_type='base table' AND table_schema='moviedb';";
 			 	PreparedStatement preparedStatement = dbcon.prepareStatement(query_tables);

@@ -2,6 +2,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import javax.annotation.Resource;
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,17 +36,24 @@ public class SingleMovieServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json"); // Response mime type
 
-		// Retrieve parameter id from url request.
 		String name = request.getParameter("name");
 
-		// Output stream to STDOUT
 		PrintWriter out = response.getWriter();
 	
 		
 		try {
-			 Connection dbcon = dataSource.getConnection();
-
-	            //Statement statement = dbcon.createStatement();
+				Context initCtx = new InitialContext();
+	
+	            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+	            if (envCtx == null)
+	                out.println("envCtx is NULL");
+	
+	            dataSource = (DataSource) envCtx.lookup("jdbc/TestDB");
+	            
+			 	Connection dbcon = dataSource.getConnection();
+			 	
+			 	if (dbcon == null)
+	                out.println("dbcon is null.");
 
 	            String query = "SELECT DISTINCT M.id, M.title, M.year, M.director, GROUP_CONCAT(DISTINCT G.name SEPARATOR ', ') AS genres , GROUP_CONCAT(DISTINCT S.name SEPARATOR ', ') AS stars, R.rating \n" + 
 	            		"FROM movies M \n" + 

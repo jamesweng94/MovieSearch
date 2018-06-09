@@ -2,6 +2,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import javax.annotation.Resource;
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,12 +40,17 @@ public class MovieList extends HttpServlet {
 		String action = request.getParameter("action");
         System.out.println("Action: " + action);
         
-        try {
-        	
-        	Connection dbcon = dataSource.getConnection();
-			Statement statement = dbcon.createStatement();
+        try {	
+        	Context initCtx = new InitialContext();
+            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+            if (envCtx == null)
+                out.println("envCtx is NULL");
+            dataSource = (DataSource) envCtx.lookup("jdbc/TestDB");
+			Connection dbcon = dataSource.getConnection();
+			if (dbcon == null)
+                out.println("dbcon is null.");
+			
 			JsonArray jsonArray = new JsonArray();
-
 
 			String query = "";
 			PreparedStatement preparedStatement = dbcon.prepareStatement("");
@@ -181,7 +188,7 @@ public class MovieList extends HttpServlet {
             response.setStatus(200);
 
             rs.close();
-            statement.close();
+            //statement.close();
             dbcon.close();
 
             

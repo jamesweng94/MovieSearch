@@ -3,6 +3,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import javax.annotation.Resource;
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,8 +35,19 @@ public class SingleStarServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		
 		try { 
+			Context initCtx = new InitialContext();
+
+            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+            if (envCtx == null)
+                out.println("envCtx is NULL");
+
+            dataSource = (DataSource) envCtx.lookup("jdbc/TestDB");
+            
 			Connection dbcon = dataSource.getConnection();
-			//Statement statement = dbcon.createStatement();
+			
+			if (dbcon == null)
+                out.println("dbcon is null.");
+			
 			JsonArray jsonArray = new JsonArray();
 			
 			String query = "SELECT T.name, T.birthYear, GROUP_CONCAT(DISTINCT M.title SEPARATOR', ') AS movies\n" +
@@ -61,7 +74,6 @@ public class SingleStarServlet extends HttpServlet {
 			        movies_array.add(movies[i]);
 				}
 				
-                // Create a JsonObject based on the data we retrieve from rs
                 JsonObject jsonObject = new JsonObject();
                 jsonObject.addProperty("star_name", star_name);
                 jsonObject.addProperty("star_birthyear", star_birthyear);

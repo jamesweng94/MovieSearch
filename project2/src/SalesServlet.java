@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 import javax.annotation.Resource;
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -43,8 +45,19 @@ public class SalesServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		
 		try {
+			Context initCtx = new InitialContext();
+
+            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+            if (envCtx == null)
+                out.println("envCtx is NULL");
+
+            dataSource = (DataSource) envCtx.lookup("jdbc/TestDB");
+            
         	Connection dbcon = dataSource.getConnection();
-        	//Statement statement = dbcon.createStatement();
+        	
+        	if (dbcon == null)
+                out.println("dbcon is null.");
+        	
         	if(todo == null) {
 	        	String query = "INSERT INTO sales(customerID, movieId, saleDate) VALUES(\n" + 
 	        					"(SELECT  C.id\n" + 

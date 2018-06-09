@@ -2,6 +2,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import javax.annotation.Resource;
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,8 +40,18 @@ public class CheckoutServlet extends HttpServlet {
         System.out.println("credit date: " + creditDate);
         
         try {
-        	Connection dbcon = dataSource.getConnection();
-        	//Statement statement = dbcon.createStatement();
+        	Context initCtx = new InitialContext();
+
+            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+            if (envCtx == null)
+                out.println("envCtx is NULL");
+
+            dataSource = (DataSource) envCtx.lookup("jdbc/TestDB");
+            
+			Connection dbcon = dataSource.getConnection();
+			
+			if (dbcon == null)
+                out.println("dbcon is null.");
         	
         	String query ="SELECT C.firstName, C.lastName, C.id, C.expiration\n" + 
  				   "FROM creditcards C\n" + 

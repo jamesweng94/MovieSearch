@@ -77,6 +77,7 @@ public class MovieListActivity extends AppCompatActivity {
 
                 movieList.add(new Movie(title, year, director, stars_array, genres_array));
             }
+
             pagination = new Pagination(5, movieList);
             lastPage = pagination.getLastPage();
 

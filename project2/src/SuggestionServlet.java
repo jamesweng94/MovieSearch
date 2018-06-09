@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.util.HashMap;
 
 import javax.annotation.Resource;
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -51,7 +53,18 @@ public class SuggestionServlet extends HttpServlet {
 		
 		
 		try {
+			Context initCtx = new InitialContext();
+
+            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+            if (envCtx == null)
+                out.println("envCtx is NULL");
+
+            dataSource = (DataSource) envCtx.lookup("jdbc/TestDB");
+            
 			Connection dbcon = dataSource.getConnection();
+			
+			if (dbcon == null)
+                out.println("dbcon is null.");
 			
 			String query = "SELECT title \n "+
 							"FROM movies \n" +

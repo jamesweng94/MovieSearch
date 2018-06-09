@@ -2,6 +2,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import javax.annotation.Resource;
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -26,20 +28,20 @@ public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	
-    // Create a dataSource which registered in web.xml
     @Resource(name = "jdbc/moviedb")
     private DataSource dataSource; 
        
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//UpdateSecurePassword update = new UpdateSecurePassword();
-        String email = request.getParameter("email");
+
+		String email = request.getParameter("email");
         String password = request.getParameter("password");
+        PrintWriter out = response.getWriter();
         
+        /*
         String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
         System.out.println("gRecaptchaResponse=" + gRecaptchaResponse);
-        PrintWriter out = response.getWriter();
-
-        /*
+        
+        
         // Verify reCAPTCHA
         try {
             RecaptchaVerifyUtils.verify(gRecaptchaResponse);
@@ -51,11 +53,23 @@ public class LoginServlet extends HttpServlet {
             response.getWriter().write(responseJsonObject.toString());
             return;
         }
+        
+        response.setContentType("application/json");
         */
-        //response.setContentType("application/json");
-                
+        
         try {   	
+        	Context initCtx = new InitialContext();
+
+            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+            if (envCtx == null)
+                out.println("envCtx is NULL");
+
+            dataSource = (DataSource) envCtx.lookup("jdbc/TestDB");
+        	
         	Connection dbcon = dataSource.getConnection();
+        	
+        	if (dbcon == null)
+                out.println("dbcon is null.");
         	
         	String query = "SELECT * from customers WHERE email = ? ;";
         	PreparedStatement preparedStatement = dbcon.prepareStatement(query);
@@ -72,9 +86,7 @@ public class LoginServlet extends HttpServlet {
     			success = new StrongPasswordEncryptor().checkPassword(password, encryptedPassword);
 
         		if(success) {   		
-	                // Login success:
 	        		System.out.println("Login success");
-	                // set this user into the session
 	                request.getSession().setAttribute("email", new User(email));
 	
 	                JsonObject responseJsonObject = new JsonObject();
@@ -84,16 +96,16 @@ public class LoginServlet extends HttpServlet {
 	                response.getWriter().write(responseJsonObject.toString());  
         		}
         		if(!success) {
-	                // Login fail
+	
 	                JsonObject responseJsonObject = new JsonObject();
 	                responseJsonObject.addProperty("status", "fail");
 	                responseJsonObject.addProperty("message", "Login error: Email " + email + " doesn't exist or incorrect password");
 	     
 	                response.getWriter().write(responseJsonObject.toString());
 	            }
-        	}else
+        	} else
         	{
-                // Login fail
+
                 JsonObject responseJsonObject = new JsonObject();
                 responseJsonObject.addProperty("status", "fail");
                 responseJsonObject.addProperty("message", "Login error: Email " + email + " doesn't exist or incorrect password");
@@ -101,12 +113,9 @@ public class LoginServlet extends HttpServlet {
         	}
         }
         catch (Exception e) {
-			// write error message JSON object to output
 			JsonObject jsonObject = new JsonObject();
 			jsonObject.addProperty("errorMessage", e.getMessage());
 			out.write(jsonObject.toString());
-
-			// set reponse status to 500 (Internal Server Error)
 			response.setStatus(500);
 		}
 		out.close();
