@@ -19,7 +19,7 @@ import java.sql.Statement;
 
 public class MovieListAndroid extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    @Resource(name = "jdbc/moviedb")
+    @Resource(name = "jdbc/LocalDB")
     private DataSource dataSource;
     
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -9,19 +9,21 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  
   <resource-ref>
     <description>MySQL DataSource example</description>
-    <res-ref-name>jdbc/TestDB</res-ref-name>
+    <res-ref-name>jdbc/LocalDB</res-ref-name>
     <res-type>javax.sql.DataSource</res-type>
     <res-auth>Container</res-auth>
   </resource-ref>
-  <security-constraint>
- <web-resource-collection>
-    <web-resource-name>HTTPSOnly</web-resource-name>
-    <url-pattern>/*</url-pattern>
- </web-resource-collection>
- <user-data-constraint>
-    <transport-guarantee>CONFIDENTIAL</transport-guarantee>
- </user-data-constraint>
-</security-constraint>
+
+
+  <resource-ref>
+    <description>MySQL DataSource MasterDB</description>
+    <res-ref-name>jdbc/MasterDB</res-ref-name>
+    <res-type>javax.sql.DataSource</res-type>
+    <res-auth>Container</res-auth>
+  </resource-ref>
+
+
 </web-app>

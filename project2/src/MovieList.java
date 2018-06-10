@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -26,26 +29,38 @@ import java.util.HashMap;
 @WebServlet(name = "MovieList", urlPatterns = "/api/list")
 public class MovieList extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    @Resource(name = "jdbc/moviedb")
+    @Resource(name = "jdbc/LocalDB")
     private DataSource dataSource;
 
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+    	long ts_startTime = System.currentTimeMillis();
+    	long tj_startTime = 0;
+    	long tj_endTime;
         response.setContentType("application/json"); 
         PrintWriter out = response.getWriter();
 		
 		String action = request.getParameter("action");
         System.out.println("Action: " + action);
         
+        JsonObject timeMeasured = new JsonObject();
+        
+		String contextPath = getServletContext().getRealPath("/");
+		String xmlFilePath=contextPath+"test.txt";
+		System.out.println(xmlFilePath);
+		File myfile = new File(xmlFilePath);
+		myfile.createNewFile();
+	    BufferedWriter writer = new BufferedWriter(new FileWriter(myfile, true));
+	    
+	    
         try {	
         	Context initCtx = new InitialContext();
             Context envCtx = (Context) initCtx.lookup("java:comp/env");
             if (envCtx == null)
                 out.println("envCtx is NULL");
-            dataSource = (DataSource) envCtx.lookup("jdbc/TestDB");
+            dataSource = (DataSource) envCtx.lookup("jdbc/LocalDB");
 			Connection dbcon = dataSource.getConnection();
 			if (dbcon == null)
                 out.println("dbcon is null.");
@@ -106,7 +121,7 @@ public class MovieList extends HttpServlet {
 				if(title == null) {
 					return;
 				}
-				
+	    			    
 				String[] title_token = null;
 				if(title!=null) {
 					title_token = title.split("\\s+");
@@ -129,12 +144,14 @@ public class MovieList extends HttpServlet {
 						"WHERE MATCH (M.title) AGAINST( ? IN BOOLEAN MODE) \n" +
 						"GROUP BY M.id, M.title, M.year, M.director, R.rating LIMIT 500;\n";
 				
+				tj_startTime = System.currentTimeMillis();
 				preparedStatement = dbcon.prepareStatement(query);
 				preparedStatement.setString(1, where);
 			}
-           
+			
             ResultSet rs = preparedStatement.executeQuery();
-  
+            tj_endTime = System.currentTimeMillis();
+            
 
             while (rs.next()) {
 				String movieId = rs.getString("id");
@@ -186,7 +203,14 @@ public class MovieList extends HttpServlet {
 
             out.write(jsonArray.toString());
             response.setStatus(200);
-
+            
+            long ts_endTime = System.currentTimeMillis();
+            long ts_elapsedTime = ts_endTime - ts_startTime;
+            long tj_elapsedTime = tj_endTime - tj_startTime;
+            timeMeasured.addProperty("TS", ts_elapsedTime);
+            timeMeasured.addProperty("TJ", tj_elapsedTime);
+            writer.write(timeMeasured.toString() + "\n");
+            writer.close();
             rs.close();
             //statement.close();
             dbcon.close();

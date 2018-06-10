@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<Context>
+<Context mapperContextRootRedirectEnabled="true">
 	  
     <Resource name="jdbc/moviedb"
               auth="Container"
@@ -11,12 +11,21 @@
               url="jdbc:mysql://13.58.209.21:3306/moviedb"/> 
      
               
-     <Resource name="jdbc/TestDB"
+     <Resource name="jdbc/LocalDB"
      		   auth="Container"
      		   type="javax.sql.DataSource"
                maxTotal="100" maxIdle="30" maxWaitMillis="10000"
-               username="james"
+               username="mytestuser"
                password="mypassword"
                driverClassName="com.mysql.jdbc.Driver"
-               url="jdbc:mysql://13.58.209.21:3306/moviedb?autoReconnect=true&amp;useSSL=false&amp;cachePrepStmts=true"/>
+               url="jdbc:mysql://localhost:3306/moviedb?autoReconnect=true&amp;useSSL=false&amp;cachePrepStmts=true"/>
+               
+     <Resource name="jdbc/MasterDB"
+     		   auth="Container"
+     		   type="javax.sql.DataSource"
+               maxTotal="100" maxIdle="30" maxWaitMillis="10000"
+               username="mytestuser"
+               password="mypassword"
+               driverClassName="com.mysql.jdbc.Driver"
+               url="jdbc:mysql://18.191.129.160:3306/moviedb?autoReconnect=true&amp;useSSL=false&amp;cachePrepStmts=true"/>
 </Context>

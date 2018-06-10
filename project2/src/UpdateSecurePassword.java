@@ -1,4 +1,4 @@
-/*
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -13,9 +13,9 @@ public class UpdateSecurePassword {
 
     public static void main(String[] args) throws Exception {
 
-		String loginUser = "james";
+		String loginUser = "mytestuser";
 		String loginPasswd = "mypassword";
-		String loginUrl = "jdbc:mysql://13.58.209.21:3306/moviedb";
+		String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
         Class.forName("com.mysql.jdbc.Driver").newInstance();
         Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
@@ -70,4 +70,3 @@ public class UpdateSecurePassword {
     }
 
 }
-*/

@@ -28,7 +28,7 @@ public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	
-    @Resource(name = "jdbc/moviedb")
+    @Resource(name = "jdbc/LocalDB")
     private DataSource dataSource; 
        
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -64,7 +64,7 @@ public class LoginServlet extends HttpServlet {
             if (envCtx == null)
                 out.println("envCtx is NULL");
 
-            dataSource = (DataSource) envCtx.lookup("jdbc/TestDB");
+            dataSource = (DataSource) envCtx.lookup("jdbc/LocalDB");
         	
         	Connection dbcon = dataSource.getConnection();
         	

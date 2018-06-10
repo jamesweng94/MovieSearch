@@ -25,7 +25,7 @@ import com.google.gson.JsonObject;
 public class SalesServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    @Resource(name = "jdbc/moviedb")
+    @Resource(name = "jdbc/MasterDB")
     private DataSource dataSource; 
     
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -51,7 +51,7 @@ public class SalesServlet extends HttpServlet {
             if (envCtx == null)
                 out.println("envCtx is NULL");
 
-            dataSource = (DataSource) envCtx.lookup("jdbc/TestDB");
+            dataSource = (DataSource) envCtx.lookup("jdbc/MasterDB");
             
         	Connection dbcon = dataSource.getConnection();
         	
