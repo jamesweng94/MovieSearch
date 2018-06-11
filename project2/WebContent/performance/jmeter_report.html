@@ -1,0 +1,114 @@
+ <!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+    background-color: linen;
+}
+
+td {
+    border-top-style: solid;
+}
+</style>
+</head>
+<body>
+
+<table style="width:100%">
+  <tr style="font-weight:bold; background-color: orange">
+    <td width="300px">Single-instance version cases</td>
+    <td>Graph Results Screenshot</td>
+    <td>Average Query Time(ms)</td>
+    <td>Average Search Servlet Time(ms)</td>
+    <td>Average JDBC Time(ms)</td>
+    <td>Analysis</td>
+  </tr>
+  <tr>
+    <td>Case 1: HTTP/1 thread</td>
+    <td><img src="graph_results_case1.png" alt="Graph Results Screenshot Case 1" style="width:304px;height:228px;"></td>
+    <td>87</td>
+    <td>1.2263436790310371</td>
+    <td>0.8663890991672974</td>
+    <td>TS and TJ values are the smallest since both connection pooling and prepared statements are used</td>
+  </tr>
+  <tr>
+    <td>Case 2: HTTP/10 threads</td>
+    <td><img src="graph_results_case2.png" alt="Graph Results Screenshot Case 2" style="width:304px;height:228px;"></td>
+    <td>83</td>
+    <td>1.3186979560938683</td>
+    <td>0.9303557910673732</td>
+    <td>The increased amount of users causes more traffic in the site and therefore, TS and TJ are expected to be larger</td>
+  </tr>
+  <tr>
+    <td>Case 3: HTTPS/10 threads</td>
+    <td><img src="graph_results_case3.png" alt="Graph Results Screenshot Case 3" style="width:304px;height:228px;"></td>
+    <td>98</td>
+    <td>1.9091597274791825</td>
+    <td>1.1540499621498865</td>
+    <td>HTTPS adds overhead that is caused by lengthy SSL handshakes and that in turns increase TS and TJ values</td>
+  </tr>
+  <tr>
+    <td>Case 4: HTTP/10 threads/No prepared statements</td>
+    <td><img src="graph_results_case4.png" alt="Graph Results Screenshot Case 4" style="width:304px;height:228px;"></td>
+    <td>84</td>
+    <td>2.01892505677517</td>
+    <td>1.1884935654806965</td>
+    <td>Without prepared statements it adds overheads for each query on DBMS server such as parsing, validation, and optimization</td>
+  </tr>
+  <tr>
+    <td>Case 5: HTTP/10 threads/No connection pooling</td>
+    <td><img src="graph_results_case5.png" alt="Graph Results Screenshot Case 5" style="width:304px;height:228px;"></td>
+    <td>83</td>
+    <td>2.3485995457986375</td>
+    <td>1.4708554125662376</td>
+    <td>Without reusing existing connections in the pool, creating a new connection for every single request is more expensive</td>
+  </tr>
+
+</table> 
+
+
+<table style="width:100%">
+  <tr style="font-weight:bold; background-color: orange">
+    <td width="300px">Scaled version cases</td>
+    <td>Graph Results Screenshot</td>
+    <td>Average Query Time(ms)</td>
+    <td>Average Search Servlet Time(ms)</td>
+    <td>Average JDBC Time(ms)</td>
+    <td>Analysis</td>
+  </tr>
+  <tr>
+    <td>Case 1: HTTP/1 thread</td>
+    <td><img src="graph_results_case6.png" alt="Graph Results Screenshot Case 6" style="width:304px;height:228px;"></td>
+    <td>84</td>
+    <td>1.2155766101</td>
+    <td>0.8020128702</td>
+    <td>Internet connection strength varies on different machines, but scaled versions should result in equal or lesser TS and TJ values compared to single-instance versions</td>
+  </tr>
+  <tr>
+    <td>Case 2: HTTP/10 threads</td>
+    <td><img src="graph_results_case7.png" alt="Graph Results Screenshot Case 7" style="width:304px;height:228px;"></td>
+    <td>83</td>
+    <td>1.2638152914</td>
+    <td>0.9061317184</td>
+    <td>Increased amount of users causes more traffic in the site, but since there is load-balancing, TS and TJ values are less than single-instance case </td>
+  </tr>
+  <tr>
+    <td>Case 3: HTTP/10 threads/No prepared statements</td>
+    <td><img src="graph_results_case8.png" alt="Graph Results Screenshot Case 8" style="width:304px;height:228px;"></td>
+    <td>83</td>
+    <td>1.4822104466</td>
+    <td>0.9458743376</td>
+    <td>No prepared statements adds overheads for each query on DBMS, but since there is load-balancing, TS and TJ values are better than those of single-instance case </td>
+  </tr>
+  <tr>
+    <td>Case 4: HTTP/10 threads/No connection pooling</td>
+    <td><img src="graph_results_case9.png" alt="Graph Results Screenshot Case 9" style="width:304px;height:228px;"></td>
+    <td>86</td>
+    <td>2.4651778955</td>
+    <td>1.5442846329</td>
+    <td>Creating a new connection for every single request is more expensive with no connection pooling, but since there is load-balancing, TS and TJ values are better than those of single-instance case  </td>
+  </tr>
+
+</table> 
+
+</body>
+</html>
