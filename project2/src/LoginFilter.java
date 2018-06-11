@@ -1,18 +1,15 @@
+/*
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * Servlet Filter implementation class LoginFilter
- */
+
 @WebFilter(filterName = "LoginFilter", urlPatterns = "/*")
 public class LoginFilter implements Filter {
 
-    /**
-     * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
-     */
+
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
@@ -45,12 +42,6 @@ public class LoginFilter implements Filter {
         
     }
 
-    /**
-     * We need to have these function because this class implements Filter.
-     * But we don’t need to put any code in them.
-     *
-     * @see Filter#init(FilterConfig)
-     */
 
     public void init(FilterConfig fConfig) {
     }
@@ -60,3 +51,4 @@ public class LoginFilter implements Filter {
 
 
 }
+*/
