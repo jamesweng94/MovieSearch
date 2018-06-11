@@ -461,8 +461,8 @@ public class MovieList extends HttpServlet {
 
     }
 }
-*/
 
+*/
 //Without Connection pooling
 /*
 import com.google.gson.JsonArray;
@@ -690,4 +690,5 @@ public class MovieList extends HttpServlet {
     }
 }
 */
+
 
